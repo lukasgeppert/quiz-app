@@ -23,8 +23,8 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     origin: [
-      `http://localhost:${PORT}`,
-      configService.getOrThrow('ALLOWED_ORIGIN')
+      configService.getOrThrow('FRONTEND_URL'),
+      configService.getOrThrow('BACKEND_URL'),
     ],
     credentials: true
   });

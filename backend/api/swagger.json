@@ -226,7 +226,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CredentialLogin"
+                                "$ref": "#/components/schemas/CredentailRegister"
                             }
                         }
                     }
@@ -412,6 +412,157 @@
                     "auth/google"
                 ]
             }
+        },
+        "/exams": {
+            "post": {
+                "operationId": "ExamsController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateExamDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "exams"
+                ],
+                "security": [
+                    {
+                        "cookie": []
+                    }
+                ]
+            },
+            "get": {
+                "operationId": "ExamsController_findAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "exams"
+                ]
+            }
+        },
+        "/exams/{id}": {
+            "get": {
+                "operationId": "ExamsController_findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "exams"
+                ]
+            },
+            "patch": {
+                "operationId": "ExamsController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateExamDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "exams"
+                ]
+            },
+            "delete": {
+                "operationId": "ExamsController_remove",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "exams"
+                ]
+            }
         }
     },
     "info": {
@@ -461,9 +612,6 @@
                     "image": {
                         "type": "string",
                         "nullable": true
-                    },
-                    "emailVerified": {
-                        "type": "boolean"
                     }
                 },
                 "required": [
@@ -472,8 +620,7 @@
                     "email",
                     "firstName",
                     "lastName",
-                    "image",
-                    "emailVerified"
+                    "image"
                 ]
             },
             "ValidationErrorDto": {
@@ -516,6 +663,55 @@
                     "password",
                     "email"
                 ]
+            },
+            "CredentailRegister": {
+                "type": "object",
+                "properties": {
+                    "password": {
+                        "type": "string",
+                        "minLength": 8,
+                        "pattern": "/[@$!%*#?&]/",
+                        "example": "Password@123",
+                        "description": "password must contain atleast 1 special character, 1 upper case and 1 number"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "object",
+                        "default": "USER"
+                    }
+                },
+                "required": [
+                    "password",
+                    "email",
+                    "role"
+                ]
+            },
+            "CreateExamDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "title"
+                ]
+            },
+            "UpdateExamDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
             }
         }
     }

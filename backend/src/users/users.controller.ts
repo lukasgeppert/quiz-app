@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { QueryDto } from 'src/shared/dto/query.dto';
 import { IsRole } from '../shared/role/role.decorator';
 import { Role } from '@prisma/client';
+import { AccessTokenGuard } from 'src/auth/access-token/access-token.gaurd';
 
 @Controller('users')
 @ApiTags('users')
+@UseGuards(AccessTokenGuard)
 @IsRole(Role.ADMIN)
 @ApiCookieAuth()
 export class UsersController {

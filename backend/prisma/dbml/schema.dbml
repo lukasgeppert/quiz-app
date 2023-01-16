@@ -13,9 +13,85 @@ Table User {
   updatedAt DateTime [not null]
   emailVerified Boolean [not null, default: false]
   image String
+  Exam Exam [not null]
+}
+
+Table Exam {
+  id Int [pk, increment]
+  name String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  trueFalse TrueFalse [not null]
+  multipleChoices MultipleChoice [not null]
+  shortAnswers ShortAnswer [not null]
+  multipleSelects MultipleSelect [not null]
+  user User [not null]
+  deletedAt DateTime
+  isDeleted Boolean [not null, default: false]
+  userId Int [not null]
+}
+
+Table MultipleSelect {
+  id Int [pk, increment]
+  question String [not null]
+  options String[] [not null]
+  answer Int[] [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  exam Exam [not null]
+  examId Int [not null]
+  deletedAt DateTime
+  isDeleted Boolean [not null, default: false]
+}
+
+Table TrueFalse {
+  id Int [pk, increment]
+  question String [not null]
+  answer Boolean [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  exam Exam [not null]
+  examId Int [not null]
+  deletedAt DateTime
+  isDeleted Boolean [not null, default: false]
+}
+
+Table MultipleChoice {
+  id Int [pk, increment]
+  question String [not null]
+  options String[] [not null]
+  answer Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  exam Exam [not null]
+  examId Int [not null]
+  deletedAt DateTime
+  isDeleted Boolean [not null, default: false]
+}
+
+Table ShortAnswer {
+  id Int [pk, increment]
+  question String [not null]
+  answer String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  exam Exam [not null]
+  examId Int [not null]
+  deletedAt DateTime
+  isDeleted Boolean [not null, default: false]
 }
 
 Enum Role {
   ADMIN
   USER
 }
+
+Ref: Exam.userId > User.id
+
+Ref: MultipleSelect.examId > Exam.id
+
+Ref: TrueFalse.examId > Exam.id
+
+Ref: MultipleChoice.examId > Exam.id
+
+Ref: ShortAnswer.examId > Exam.id

@@ -4,18 +4,15 @@ import { ValidationErrorDto } from 'src/shared/dto/validation-error.dto';
 import { UsersService } from 'src/users/users.service';
 import { CredentialLogin } from './dto/credential-login.dto';
 import { Response } from 'express';
-import { MailService } from 'src/shared/mail/mail.service';
+import { MailService } from '../shared/mail/mail.service';
 import { AccessTokenService } from './access-token/access-token.service';
 import { RefreshTokenService } from './refresh-token/refresh-token.service';
-import { Payload } from './entities/auth.entity';
 import { AuthUser } from './decorator/auth.gaurd';
 import { RefreshTokenGuard } from './refresh-token/refresh-token.gaurd';
 import { AccessTokenGuard } from './access-token/access-token.gaurd';
-import { UserEntity } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { VerifyEmailDto } from './dto/verify-emaill.dto';
-import { GoogleGaurd } from './google/google.gaurd';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CredentailRegister } from './dto/credential-register.dto';
 
 
 @Controller('auth')
@@ -32,10 +29,12 @@ export class AuthController {
   @Post("login")
   async credentailLogin(
     @Res({ passthrough: true }) response: Response,
-    @Body() {email, password}: CredentialLogin) {
-    const user = await this.userService.findOne({email});
-   
-    if (user && await user.comparePassword(password)) {
+    @Body() { email, password }: CredentialLogin) {
+    const user = await this.userService.findOne({ email });
+    if (user.email === email && await user.comparePassword(password)) {
+      if (!user.emailVerified) {
+        throw new HttpException('Email not verified', HttpStatus.UNAUTHORIZED);
+      }
       this.accessTokenService.sendCookie(response, user);
       this.refreshTokenService.sendCookie(response, user);
       return user;
@@ -45,7 +44,7 @@ export class AuthController {
 
   @Post("signup")
   @ApiConflictResponse({ description: 'Unable to create user' })
-  async credentailSignUp(@Body() body: CredentialLogin) {
+  async credentailSignUp(@Body() body: CredentailRegister) {
     const data = await this.userService.create(body);
     const token = this.jwtService.sign({ sub: data.id, email: data.email, role: data.role });
     this.mailService.sendVerificationMail(data.email, token);
@@ -54,9 +53,14 @@ export class AuthController {
 
   @Get('verify-email')
   async verifyEmail(@Query() data: VerifyEmailDto) {
-    const { sub } = this.jwtService.verify(data.token);
-    await this.userService.update(sub, { emailVerified: true });
-    return { message: "Email verified successfully" }
+    try {
+      const { sub } = this.jwtService.verify(data.token);
+      await this.userService.update(sub, { emailVerified: true });
+      return { message: "Email verified successfully" }
+    } catch (error) {
+      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+    }
+
   }
 
   @Post("logout")
@@ -83,26 +87,7 @@ export class AuthController {
   }
 
 
-  @Get('/google/login')
-  @UseGuards(GoogleGaurd)
-  googleLogin(@Req() _) {
-    console.log("google login");
-   }
 
-  @UseGuards(GoogleGaurd)
-  @Get('google/callback')
-  async googleCallback(@Req() req: Request, @Res({passthrough: true}) res: Response) {
-    const { user: userData } = req as any;
-    let user = await this.userService.findOne({ email: userData.email});
-    
-    if (!user) 
-      user = await this.userService.create(userData as CreateUserDto);
-    
-    this.accessTokenService.sendCookie(res, user);
-    this.refreshTokenService.sendCookie(res, user);
-    return user;
-    
-  }
- 
+
 
 }

@@ -11,12 +11,13 @@ export class UserEntity implements User {
     lastName: string | null;
     image: string | null;
 
+    @Exclude()
+    @ApiHideProperty()
     emailVerified: boolean;
 
     @ApiHideProperty()
     @Exclude()
     password: string | null;
-
 
     @ApiProperty({ enum: Role, default: Role.USER })
     role: Role;

@@ -6,6 +6,7 @@ import * as Joi from 'joi';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { PrismaExceptionFilter } from './shared/prisma/filter/prisma.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ExamsModule } from './exams/exams.module';
 
 @Module({
   imports: [
@@ -18,7 +19,9 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
         DATABASE_URL: Joi.string().required(),
         COOKIE_DOMAIN: Joi.string().default('localhost'),
       
-        ALLOWED_ORIGIN: Joi.string().default('*'),
+        FRONTEND_URL: Joi.string().default('http://localhost:4200'),
+        BACKEND_URL: Joi.string().default('http://localhost:3000'),
+
         SALT: Joi.number().default(10),
 
         ACCESS_TOKEN_SECRET: Joi.string().required(),
@@ -58,6 +61,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     }),
     UsersModule,
     AuthModule,
+    ExamsModule,
   ],
   controllers: [],
   providers: [
