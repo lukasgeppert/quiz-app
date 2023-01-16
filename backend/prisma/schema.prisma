@@ -25,7 +25,7 @@ model User {
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  verified  Boolean  @default(false)
+  emailVerified  Boolean  @default(false)
   image     String?
 }
 

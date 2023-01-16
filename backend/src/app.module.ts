@@ -4,9 +4,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { PrismaExceptionFilter } from './prisma/filter/prisma.filter';
+import { PrismaExceptionFilter } from './shared/prisma/filter/prisma.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-
 
 @Module({
   imports: [
@@ -18,8 +17,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
         PORT: Joi.number().default(3000),
         DATABASE_URL: Joi.string().required(),
         COOKIE_DOMAIN: Joi.string().default('localhost'),
-        GOOGLE_CLIENT_ID: Joi.string().required(),
-        GOOGLE_CLIENT_SECRET: Joi.string().required(),
+      
         ALLOWED_ORIGIN: Joi.string().default('*'),
         SALT: Joi.number().default(10),
 
@@ -30,13 +28,17 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
         ACCESS_TOKEN_COOKIE_NAME: Joi.string().default('access_token'),
         REFRESH_TOKEN_COOKIE_NAME: Joi.string().default('refresh_token'),
 
+        GOOGLE_PROVIDER_ISSUER_URL: Joi.string().default('https://accounts.google.com'),
+        GOOGLE_PROVIDER_CLIENT_SECRET: Joi.string().required(),
+        GOOGLE_PROVIDER_CLIENT_ID: Joi.string().required(),
+        GOOGLE_PROVIDER_CALLBACK_URL: Joi.string().default('http://localhost:3000/auth/google/callback'),
+        
         SMTP_API_KEY: Joi.string().required(),
         SMTP_API_HOST: Joi.string().default("smtp.sendgrid.net"),
         SMTP_API_USER: Joi.string().default("apikey"),
         SMTP_MAIL_FROM: Joi.string().required(),
         THROTTLE_TTL: Joi.number().default(60), // 60 seconds 
         THROTTLE_LIMIT: Joi.number().default(100), // 100 requests
-
 
         VERIFY_EMAIL_URL: Joi.string().default('http://localhost:3000/auth/verify-email'),
       }),

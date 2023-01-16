@@ -1,7 +1,7 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import { Prisma, Role, User } from "@prisma/client"
 import { Exclude } from "class-transformer";
-
+import * as bcript from 'bcrypt';
 
 export class UserEntity implements User {
     id: number;
@@ -11,7 +11,7 @@ export class UserEntity implements User {
     lastName: string | null;
     image: string | null;
 
-    verified: boolean;
+    emailVerified: boolean;
 
     @ApiHideProperty()
     @Exclude()
@@ -32,5 +32,9 @@ export class UserEntity implements User {
 
     constructor(partial: Partial<UserEntity>) {
         Object.assign(this, partial);
+    }
+
+    async comparePassword(password: string) {
+        return bcript.compare(password, this.password);
     }
 }

@@ -2,13 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { UsersService } from './users.service';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { QueryDto } from 'src/shared/dto/query.dto';
-import { IsRole } from 'src/auth/decorator/role.gaurd';
+import { IsRole } from '../shared/role/role.decorator';
 import { Role } from '@prisma/client';
 
 @Controller('users')
 @ApiTags('users')
-// @IsRole(Role.ADMIN)
-// @ApiCookieAuth()
+@IsRole(Role.ADMIN)
+@ApiCookieAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -20,7 +20,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne({ id: +id });
   }
 
 

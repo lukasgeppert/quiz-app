@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CookieOptions, Response } from 'express';
+import { UserEntity } from 'src/users/entities/user.entity';
 import { Payload } from '../entities/auth.entity';
 
 @Injectable()
@@ -26,8 +27,8 @@ export class RefreshTokenService {
     }
 
 
-
-    sendCookie(res: Response, data: Payload) {
+    sendCookie(res: Response, { email, id: sub, role }: UserEntity) {
+        const data: Payload = { email, sub, role };
         const token = this.jwtService.sign(data);
         res.cookie(
             this.cookieName,

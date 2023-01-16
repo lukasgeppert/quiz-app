@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 
 export class CreateUserDto implements Prisma.UserCreateInput {
     email: string;
@@ -6,5 +6,7 @@ export class CreateUserDto implements Prisma.UserCreateInput {
     firstName?: string;
     lastName?: string;
     image?: string;
+    emailVerified?: boolean;
+    role?: Role;
 }
 

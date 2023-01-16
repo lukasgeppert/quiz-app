@@ -14,10 +14,10 @@ import { AccessTokenStrategy } from './access-token.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.getOrThrow('ACCESS_TOKEN_SECRET'),
+      useFactory: (ConfigService: ConfigService) => ({
+        secret: ConfigService.getOrThrow('ACCESS_TOKEN_SECRET'),
         signOptions: { 
-          expiresIn: config.getOrThrow('ACCESS_TOKEN_EXPIRATION_TIME') 
+          expiresIn: ConfigService.getOrThrow('ACCESS_TOKEN_EXPIRATION_TIME') 
         },
       }),
     }),
