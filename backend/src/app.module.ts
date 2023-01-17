@@ -8,6 +8,7 @@ import { PrismaExceptionFilter } from './shared/prisma/filter/prisma.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ExamsModule } from './exams/exams.module';
 import { QuestionsModule } from './questions/questions.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -50,6 +51,9 @@ import { QuestionsModule } from './questions/questions.module';
         REDIS_PORT: Joi.number().default(6379),
         REDIS_PASSWORD: Joi.string().required(),
         REDIS_TTL: Joi.number().default(60), // 60 seconds
+
+
+        PERMANETLY_DELETE_AFTER: Joi.number().default(7 * 24 * 60 * 60), // 7 days
       }),
       validationOptions: {
         allowUnknown: true,
@@ -76,6 +80,8 @@ import { QuestionsModule } from './questions/questions.module';
       inject: [ConfigService],
       imports: [ConfigModule],
     }),
+
+    ScheduleModule.forRoot(),
 
     UsersModule,
     AuthModule,
