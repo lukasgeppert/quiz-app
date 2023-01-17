@@ -70,24 +70,14 @@ export class QuestionsService {
   async handleCron() {
 
     const lte = new Date(new Date().getTime() - this.configService.getOrThrow('PERMANETLY_DELETE_AFTER'));
-    const questions = await this.prisma.question.findMany({
+    const deletedQuestions = await this.prisma.question.deleteMany({
       where: {
         isDeleted: true,
         deletedAt: {
           lte
-        }
+        },
       }
     });
-
-    if (questions.length) {
-      const ids = questions.map((question) => question.id);
-      await this.prisma.question.deleteMany({
-        where: {
-          id: {
-            in: ids
-          }
-        }
-      });
-    }
+    console.log(`Deleted ${deletedQuestions.count} questions`);
   }
 }

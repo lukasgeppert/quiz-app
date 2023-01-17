@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { QueryDto } from 'src/shared/dto/query.dto';
@@ -96,7 +96,7 @@ export class ExamsService {
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async handleCron() {
     const lte = this.configSerivce.getOrThrow('PRISMA_DELETE_AFTER');
-    const exams = await this.prisma.exam.findMany({
+    const exams = await this.prisma.exam.deleteMany({
       where: {
         isDeleted: true,
         deletedAt: {
@@ -104,16 +104,7 @@ export class ExamsService {
         }
       }
     });
-    if (exams.length) {
-      await this.prisma.exam.deleteMany({
-        where: {
-          isDeleted: true,
-          deletedAt: {
-            lte
-          }
-        }
-      });
-    }
+    Logger.log(`Deleted ${exams.count} exams`);
   }
-    
+
 }
