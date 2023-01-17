@@ -21,64 +21,26 @@ Table Exam {
   name String [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  trueFalse TrueFalse [not null]
-  multipleChoices MultipleChoice [not null]
-  shortAnswers ShortAnswer [not null]
-  multipleSelects MultipleSelect [not null]
   user User [not null]
   deletedAt DateTime
   isDeleted Boolean [not null, default: false]
   userId Int [not null]
+  Questions Question [not null]
 }
 
-Table MultipleSelect {
+Table Question {
   id Int [pk, increment]
   question String [not null]
+  description String
+  type QuestionType [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+  isDeleted Boolean [not null, default: false]
   options String[] [not null]
-  answer Int[] [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
+  answers Int[] [not null]
   exam Exam [not null]
   examId Int [not null]
-  deletedAt DateTime
-  isDeleted Boolean [not null, default: false]
-}
-
-Table TrueFalse {
-  id Int [pk, increment]
-  question String [not null]
-  answer Boolean [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  exam Exam [not null]
-  examId Int [not null]
-  deletedAt DateTime
-  isDeleted Boolean [not null, default: false]
-}
-
-Table MultipleChoice {
-  id Int [pk, increment]
-  question String [not null]
-  options String[] [not null]
-  answer Int [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  exam Exam [not null]
-  examId Int [not null]
-  deletedAt DateTime
-  isDeleted Boolean [not null, default: false]
-}
-
-Table ShortAnswer {
-  id Int [pk, increment]
-  question String [not null]
-  answer String [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  exam Exam [not null]
-  examId Int [not null]
-  deletedAt DateTime
-  isDeleted Boolean [not null, default: false]
 }
 
 Enum Role {
@@ -86,12 +48,13 @@ Enum Role {
   USER
 }
 
+Enum QuestionType {
+  TRUE_FALSE
+  MULTIPLE_CHOICE
+  SHORT_ANSWER
+  MULTIPLE_SELECT
+}
+
 Ref: Exam.userId > User.id
 
-Ref: MultipleSelect.examId > Exam.id
-
-Ref: TrueFalse.examId > Exam.id
-
-Ref: MultipleChoice.examId > Exam.id
-
-Ref: ShortAnswer.examId > Exam.id
+Ref: Question.examId > Exam.id

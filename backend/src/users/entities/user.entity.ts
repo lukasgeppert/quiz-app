@@ -1,5 +1,5 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import { Prisma, Role, User } from "@prisma/client"
+import { Role, User } from "@prisma/client"
 import { Exclude } from "class-transformer";
 import * as bcript from 'bcrypt';
 

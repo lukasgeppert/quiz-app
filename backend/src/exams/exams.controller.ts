@@ -1,12 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { ExamsService } from './exams.service';
 import { CreateExamDto } from './dto/create-exam.dto';
 import { UpdateExamDto } from './dto/update-exam.dto';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
-import { identity } from 'rxjs';
 import { AuthUser } from 'src/auth/decorator/auth.gaurd';
 import { AccessTokenGuard } from 'src/auth/access-token/access-token.gaurd';
+import { QueryExamDto } from './dto/query-exam.dto';
+import { QueryDeleteDto } from 'src/shared/dto/query.dto';
+import { ParamDto } from 'src/shared/dto/param.dto';
 
 @Controller('exams')
 @ApiTags('exams')
@@ -16,28 +17,32 @@ export class ExamsController {
   @Post()
   @ApiCookieAuth()
   @UseGuards(AccessTokenGuard)
-  create(@AuthUser() id: number, @Body() createExamDto: CreateExamDto) {
-    console.log(id);
-    return this.examsService.create(createExamDto);
+  create(@AuthUser() userId: number, @Body() createExamDto: CreateExamDto) {
+    return this.examsService.create(userId, createExamDto);
   }
 
   @Get()
-  findAll() {
-    return this.examsService.findAll();
+  findAll(@Query() query: QueryExamDto) {
+    return this.examsService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param() { id }: ParamDto) {
     return this.examsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
-    return this.examsService.update(+id, updateExamDto);
+  @ApiCookieAuth()
+  @UseGuards(AccessTokenGuard)
+  update(@AuthUser() userId: number, @Param() { id }: ParamDto, @Body() updateExamDto: UpdateExamDto) {
+    return this.examsService.update(userId, id, updateExamDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.examsService.remove(+id);
+  @ApiCookieAuth()
+  @UseGuards(AccessTokenGuard)
+  remove(@AuthUser() userId: number, @Param() { id }: ParamDto, @Query() { force }: QueryDeleteDto) {
+    return this.examsService.remove(userId, id, force);
   }
+  
 }

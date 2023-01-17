@@ -14,20 +14,18 @@ import { AccessTokenGuard } from 'src/auth/access-token/access-token.gaurd';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-
   @Get()
   findAll(@Query() query: QueryDto) {
     return this.usersService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne({ id: +id });
+  findOne(@Param('id') id: number) {
+    return this.usersService.findOne({ id });
   }
 
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.usersService.remove(id);
   }
 }

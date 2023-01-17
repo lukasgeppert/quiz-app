@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Module, ValidationPipe } from '@nestjs/common';
+import { CacheInterceptor, CacheModule, ClassSerializerInterceptor, Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -7,6 +7,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { PrismaExceptionFilter } from './shared/prisma/filter/prisma.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ExamsModule } from './exams/exams.module';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ExamsModule } from './exams/exams.module';
         PORT: Joi.number().default(3000),
         DATABASE_URL: Joi.string().required(),
         COOKIE_DOMAIN: Joi.string().default('localhost'),
-      
+
         FRONTEND_URL: Joi.string().default('http://localhost:4200'),
         BACKEND_URL: Joi.string().default('http://localhost:3000'),
 
@@ -35,7 +36,7 @@ import { ExamsModule } from './exams/exams.module';
         GOOGLE_PROVIDER_CLIENT_SECRET: Joi.string().required(),
         GOOGLE_PROVIDER_CLIENT_ID: Joi.string().required(),
         GOOGLE_PROVIDER_CALLBACK_URL: Joi.string().default('http://localhost:3000/auth/google/callback'),
-        
+
         SMTP_API_KEY: Joi.string().required(),
         SMTP_API_HOST: Joi.string().default("smtp.sendgrid.net"),
         SMTP_API_USER: Joi.string().default("apikey"),
@@ -44,6 +45,11 @@ import { ExamsModule } from './exams/exams.module';
         THROTTLE_LIMIT: Joi.number().default(100), // 100 requests
 
         VERIFY_EMAIL_URL: Joi.string().default('http://localhost:3000/auth/verify-email'),
+
+        REDIS_HOST: Joi.string().default('localhost'),
+        REDIS_PORT: Joi.number().default(6379),
+        REDIS_PASSWORD: Joi.string().required(),
+        REDIS_TTL: Joi.number().default(60), // 60 seconds
       }),
       validationOptions: {
         allowUnknown: true,
@@ -59,13 +65,29 @@ import { ExamsModule } from './exams/exams.module';
         limit: config.getOrThrow('THROTTLE_LIMIT'),
       }),
     }),
+
+    CacheModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({
+        host: configService.getOrThrow('REDIS_HOST'),
+        port: configService.getOrThrow('REDIS_PORT'),
+        password: configService.getOrThrow('REDIS_PASSWORD'),
+        ttl: configService.getOrThrow('REDIS_TTL'),
+      }),
+      inject: [ConfigService],
+      imports: [ConfigModule],
+    }),
+
     UsersModule,
     AuthModule,
     ExamsModule,
+    QuestionsModule
   ],
   controllers: [],
   providers: [
     {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },{
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     }, {

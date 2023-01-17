@@ -117,7 +117,7 @@
                         "required": true,
                         "in": "path",
                         "schema": {
-                            "type": "string"
+                            "type": "number"
                         }
                     }
                 ],
@@ -150,7 +150,7 @@
                         "required": true,
                         "in": "path",
                         "schema": {
-                            "type": "string"
+                            "type": "number"
                         }
                     }
                 ],
@@ -433,7 +433,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "$ref": "#/components/schemas/ListExamEntity"
                                 }
                             }
                         }
@@ -450,14 +450,103 @@
             },
             "get": {
                 "operationId": "ExamsController_findAll",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Skip the first n results",
+                        "schema": {
+                            "minimum": 0,
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "take",
+                        "required": false,
+                        "in": "query",
+                        "description": "Limit the number of results",
+                        "schema": {
+                            "minimum": 1,
+                            "default": 100,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "required": false,
+                        "in": "query",
+                        "description": "Sort by this field",
+                        "schema": {
+                            "default": "id",
+                            "enum": [
+                                "id",
+                                "question",
+                                "createdAt",
+                                "updatedAt"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "field",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter by this field",
+                        "schema": {
+                            "default": "id",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "contains",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter by this value",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter by this date",
+                        "schema": {
+                            "format": "2021-01-01T11:59:59.999Z",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter by this date",
+                        "schema": {
+                            "format": "2021-01-01T11:59:59.999Z",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isDeleted",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ListExamEntity"
+                                    }
                                 }
                             }
                         }
@@ -477,7 +566,8 @@
                         "required": true,
                         "in": "path",
                         "schema": {
-                            "type": "string"
+                            "minimum": 1,
+                            "type": "number"
                         }
                     }
                 ],
@@ -487,7 +577,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "$ref": "#/components/schemas/ExamEntity"
                                 }
                             }
                         }
@@ -505,7 +595,8 @@
                         "required": true,
                         "in": "path",
                         "schema": {
-                            "type": "string"
+                            "minimum": 1,
+                            "type": "number"
                         }
                     }
                 ],
@@ -525,7 +616,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "$ref": "#/components/schemas/ListExamEntity"
                                 }
                             }
                         }
@@ -533,6 +624,11 @@
                 },
                 "tags": [
                     "exams"
+                ],
+                "security": [
+                    {
+                        "cookie": []
+                    }
                 ]
             },
             "delete": {
@@ -543,7 +639,17 @@
                         "required": true,
                         "in": "path",
                         "schema": {
-                            "type": "string"
+                            "minimum": 1,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "force",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "default": false,
+                            "type": "boolean"
                         }
                     }
                 ],
@@ -553,7 +659,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "$ref": "#/components/schemas/ListExamEntity"
                                 }
                             }
                         }
@@ -561,6 +667,201 @@
                 },
                 "tags": [
                     "exams"
+                ],
+                "security": [
+                    {
+                        "cookie": []
+                    }
+                ]
+            }
+        },
+        "/questions/multiple-choice": {
+            "post": {
+                "operationId": "QuestionsController_createMultipleChoice",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateMultipleChoiceDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "questions"
+                ]
+            }
+        },
+        "/questions/true-false": {
+            "post": {
+                "operationId": "QuestionsController_createTrueFalse",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTrueFalseDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "questions"
+                ]
+            }
+        },
+        "/questions/short-answer": {
+            "post": {
+                "operationId": "QuestionsController_createShortAnswer",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateShortAnswerDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "questions"
+                ]
+            }
+        },
+        "/questions/multiple-select": {
+            "post": {
+                "operationId": "QuestionsController_createMultipleSelect",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateMultipleChoiceDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "questions"
+                ]
+            }
+        },
+        "/questions/{id}": {
+            "get": {
+                "operationId": "QuestionsController_findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "minimum": 1,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "questions"
+                ]
+            },
+            "patch": {
+                "operationId": "QuestionsController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "minimum": 1,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateQuestionDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "questions"
+                ]
+            },
+            "delete": {
+                "operationId": "QuestionsController_remove",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "minimum": 1,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "force",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "default": false,
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "questions"
                 ]
             }
         }
@@ -691,7 +992,7 @@
             "CreateExamDto": {
                 "type": "object",
                 "properties": {
-                    "title": {
+                    "name": {
                         "type": "string"
                     },
                     "description": {
@@ -699,17 +1000,336 @@
                     }
                 },
                 "required": [
-                    "title"
+                    "name"
+                ]
+            },
+            "ListExamEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "TrueFalseEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "type": {
+                        "type": "object",
+                        "default": "TRUE_FALSE"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "answer": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "id",
+                    "type",
+                    "question",
+                    "description",
+                    "answer"
+                ]
+            },
+            "MultipleChoiceEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "object",
+                        "default": "MULTIPLE_CHOICE"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "answer": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "id",
+                    "question",
+                    "type",
+                    "description",
+                    "options",
+                    "answer"
+                ]
+            },
+            "MultipleSelectEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "object",
+                        "default": "MULTIPLE_SELECT"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "answers": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "question",
+                    "type",
+                    "description",
+                    "options",
+                    "answers"
+                ]
+            },
+            "ShortAnswerEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "object",
+                        "default": "SHORT_ANSWER"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "answer": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "question",
+                    "type",
+                    "description",
+                    "answer"
+                ]
+            },
+            "ExamEntity": {
+                "type": "object",
+                "properties": {
+                    "trueFalse": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TrueFalseEntity"
+                        }
+                    },
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "multipleChoice": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MultipleChoiceEntity"
+                        }
+                    },
+                    "multipleSelect": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MultipleSelectEntity"
+                        }
+                    },
+                    "shortAnswer": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ShortAnswerEntity"
+                        }
+                    }
+                },
+                "required": [
+                    "trueFalse",
+                    "id",
+                    "name",
+                    "createdAt",
+                    "updatedAt",
+                    "multipleChoice",
+                    "multipleSelect",
+                    "shortAnswer"
                 ]
             },
             "UpdateExamDto": {
                 "type": "object",
                 "properties": {
-                    "title": {
+                    "name": {
                         "type": "string"
                     },
                     "description": {
                         "type": "string"
+                    }
+                }
+            },
+            "CreateMultipleChoiceDto": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "answer": {
+                        "type": "number"
+                    },
+                    "examId": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "options",
+                    "question",
+                    "answer",
+                    "examId"
+                ]
+            },
+            "CreateTrueFalseDto": {
+                "type": "object",
+                "properties": {
+                    "question": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "answer": {
+                        "type": "boolean"
+                    },
+                    "examId": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "question",
+                    "answer",
+                    "examId"
+                ]
+            },
+            "CreateShortAnswerDto": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "answer": {
+                        "type": "string"
+                    },
+                    "examId": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "question",
+                    "answer",
+                    "examId"
+                ]
+            },
+            "UpdateQuestionDto": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "answers": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "object"
+                    },
+                    "examId": {
+                        "type": "number"
                     }
                 }
             }
