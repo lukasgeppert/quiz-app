@@ -1,0 +1,12 @@
+<ng-container *ngIf="alert">
+    <div class="{{alert.type}} mat-elevation-z8" (click)="closeAlert()">
+        <h1>
+            <mat-icon>{{alert.icon}}</mat-icon>
+            <span class="ml-2">
+                {{alert.title}}</span>
+        </h1>
+        <p>{{alert.message}}</p>
+    </div>
+
+
+</ng-container>

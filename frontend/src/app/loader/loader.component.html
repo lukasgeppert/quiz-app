@@ -1,0 +1,5 @@
+<ng-container *ngIf="isLoading| async" class="fixed block w-full h-full top-0 left-0 bg-gray-50/80">
+    <div class="flex flex-col h-screen justify-center items-center">
+        <mat-progress-spinner mode="indeterminate" value="50" color="primary" diameter="200" />
+    </div>
+</ng-container>
