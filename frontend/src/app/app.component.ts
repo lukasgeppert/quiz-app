@@ -14,12 +14,13 @@ export class AppComponent {
   constructor(
     titleService: Title,
     metaService: Meta,
-    private readonly _alertService: AlertService
+    private readonly _alertService: AlertService,
   ) {
-    this._alertService.info({ 
+    this._alertService.info({
       title: "Welcome to Quiz App",
-      message: "This app uses cookies to ensure you get the best experience on our website.", 
+      message: "This app uses cookies to ensure you get the best experience on our website. By continuing to use this site, you agree to our use of cookies.",
     });
+
 
     titleService.setTitle(this.title);
     metaService.addTags([

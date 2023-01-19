@@ -6,35 +6,36 @@ import { AccessTokenService } from '../access-token/access-token.service';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { GoogleGaurd } from './google.gaurd';
 import { Request, Response } from 'express';
+import { GoogleService } from './google.service';
 
 @Controller('auth/google')
 @ApiTags('auth/google')
 export class GoogleController {
   constructor(
     private readonly userService: UsersService,
+    private readonly googleAuthService: GoogleService,
     private readonly accessTokenService: AccessTokenService,
     private readonly refreshTokenService: RefreshTokenService) { }
     
-  @Get('login')
+  @Get('backend-login')
   @UseGuards(GoogleGaurd)
   async googleAuth(@Req() req: any) { }
-
 
 
   @UseGuards(GoogleGaurd)
   @Get('callback')
   async googleCallback(
-    @Req() req: { user: CreateUserDto },
+    @Req() req: { accessToken: string },
     @Res({ passthrough: true }) res: Response) {
-    let user = await this.userService.findOne({ email: req.user.email });
-
+    const { accessToken } = req;
+    const userData = await this.googleAuthService.getUserDetails(accessToken);
+    let user = await this.userService.findOne({ email: userData.email });
     if (!user)
-      user = await this.userService.create(req.user);
+      user = await this.userService.create(userData);
 
     this.accessTokenService.sendCookie(res, user);
     this.refreshTokenService.sendCookie(res, user);
     return user;
-
   }
 
 }

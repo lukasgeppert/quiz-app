@@ -8,6 +8,7 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { AccessTokenModule } from './access-token/access-token.module';
 import { GoogleController } from './google/google.controller';
 import { GoogleStrategy } from './google/google.strategy';
+import { GoogleService } from './google/google.service';
 
 @Module({
   controllers: [
@@ -15,7 +16,8 @@ import { GoogleStrategy } from './google/google.strategy';
     GoogleController
   ],
   providers: [
-    GoogleStrategy
+    GoogleStrategy,
+    GoogleService
   ],
   imports: [
     UsersModule,

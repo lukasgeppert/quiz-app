@@ -1,0 +1,38 @@
+<h1>Register Form</h1>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
+
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="email.errors?.['required']">Email is required</mat-error>
+        <mat-error *ngIf="email.errors?.['email']">Email is invalid</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="getType(isPasswordVisible)" formControlName="password" autocomplete="new-password">
+        <mat-icon matSuffix (click)="tooglePasswordVisibility()" *ngIf="isPasswordVisible">visibility</mat-icon>
+        <mat-icon matSuffix (click)="tooglePasswordVisibility()" *ngIf="!isPasswordVisible">visibility_off</mat-icon>
+    </mat-form-field>
+
+    <ng-container *ngFor="let error of passwordErrorMessages | keyvalue">
+        <span [style.color]="isPasswordError(error.key)? 'red': 'green'">
+            <mat-icon *ngIf="isPasswordError(error.key)" matSuffix>error_outline</mat-icon>
+            <mat-icon *ngIf="!isPasswordError(error.key)" matSuffix>done</mat-icon>
+
+            {{error.value}}</span>
+    </ng-container>
+
+    <mat-form-field>
+        <mat-label>Confirm Password</mat-label>
+        <input matInput [type]="getType(isConfirmPasswordVisible)" formControlName="confirmPassword" autocomplete="new-password">
+        <mat-icon matSuffix (click)="toogleConfirmPasswordVisibility()" *ngIf="isConfirmPasswordVisible">visibility</mat-icon>
+        <mat-icon matSuffix (click)="toogleConfirmPasswordVisibility()" *ngIf="!isConfirmPasswordVisible">visibility_off</mat-icon>
+        <mat-error *ngIf="confirmPassword.errors?.['required']">Confirm Password is required</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">Register</button>
+</form>
+<p>
+    Already have an account?
+    <a routerLink="/auth/login">Login</a>
+</p>

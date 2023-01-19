@@ -378,7 +378,7 @@
                 ]
             }
         },
-        "/auth/google/login": {
+        "/auth/google/backend-login": {
             "get": {
                 "operationId": "GoogleController_googleAuth",
                 "parameters": [],
@@ -867,7 +867,7 @@
         }
     },
     "info": {
-        "title": "NestJS API",
+        "title": "NestJS API 0.0.1}",
         "description": "The NestJS API description",
         "version": "1.0",
         "contact": {}

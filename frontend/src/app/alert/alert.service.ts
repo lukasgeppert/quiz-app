@@ -26,6 +26,7 @@ export class AlertService implements OnInit, OnDestroy {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    
     this.routeSubscription = this.router.events.subscribe(() => {
       if (this.keepAfterRouteChange) {
         this.keepAfterRouteChange = false;

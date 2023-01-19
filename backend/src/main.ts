@@ -10,7 +10,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const PORT = configService.getOrThrow('PORT');
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
+    .setTitle(`NestJS API ${process.env.npm_package_version}}`)
     .setDescription('The NestJS API description')
     .setVersion('1.0')
     .addCookieAuth("auth-cookie", {

@@ -6,6 +6,15 @@
     <span class="ml-2">Quiz App</span>
   </mat-toolbar-row>
 </mat-toolbar>
-<router-outlet />
-<app-loader />
-<app-alert />
+<main class="flex flex-col h-screen mat-elevation-z4">
+  <router-outlet></router-outlet>
+  <app-loader />
+  <app-alert />
+</main>
+<footer class="border-t  h-14 bg-gray-700 text-white text-center">
+  <span class="ml-2">Quiz App</span>
+  <p class="mt-2">
+    &copy; 2021, <a class="text-decoration-none text-white" href="https://umangshrestha.netlify.app/">Umang Shrestha</a>
+  </p>
+
+</footer>
