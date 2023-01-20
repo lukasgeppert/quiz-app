@@ -28,4 +28,11 @@ export class CreateQuestionDto {
 
     @IsNumber()
     examId: number;
+
+
+    @IsOptional()
+    @ApiProperty({type: String, isArray: true})
+    @IsArray()
+    @Type(() => String)
+    tags: string[] = [];
 }

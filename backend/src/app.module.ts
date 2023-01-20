@@ -4,7 +4,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import * as Joi from 'joi';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { PrismaExceptionFilter } from './shared/prisma/filter/prisma.filter';
+import { PrismaExceptionFilter } from './shared/filter/prisma.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ExamsModule } from './exams/exams.module';
 import { QuestionsModule } from './questions/questions.module';
@@ -79,7 +79,7 @@ import { LogMiddleware } from './shared/middleware/log.middleware';
     UsersModule,
     AuthModule,
     ExamsModule,
-    QuestionsModule
+    QuestionsModule,
   ],
   controllers: [],
   providers: [

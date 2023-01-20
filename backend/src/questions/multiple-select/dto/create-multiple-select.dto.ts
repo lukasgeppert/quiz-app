@@ -23,18 +23,25 @@ export class CreateMultipleSelectDto {
     @IsArray()
     @Type(() => String)
     options: string[];
+    
 
     @IsNumber()
     examId: number;
 
-
+    @IsOptional()
+    @ApiProperty({type: String, isArray: true})
+    @IsArray()
+    @Type(() => String)
+    tags: string[] = [];
+    
     public toQuestion(): CreateQuestionDto {
         return {
             question: this.question,
             description: this.description,
-            type: QuestionType.MULTIPLE_SELECT,
             options: this.options,
             answers: this.answers,
+            type: QuestionType.MULTIPLE_SELECT,
+            tags: this.tags,
             examId: this.examId
         }
     }

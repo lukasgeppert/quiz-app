@@ -1,4 +1,5 @@
 import { QuestionType } from "@prisma/client";
+import { TagEntity } from "src/questions/tags/entities/tag.entity";
 
 export class MultipleChoiceEntity {
     id: number;
@@ -7,4 +8,6 @@ export class MultipleChoiceEntity {
     description: string | null;
     options: string[];
     answer: number;
+
+    tags: TagEntity[];
 }

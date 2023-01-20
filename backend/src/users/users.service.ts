@@ -1,11 +1,11 @@
-import { HttpException, HttpStatus, Injectable, UseGuards } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../shared/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { QueryDto } from 'src/shared/dto/query.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query.user.dto';
 
 @Injectable()
 export class UsersService {
@@ -42,7 +42,7 @@ export class UsersService {
     contains,
     sort,
     order,
-  }: QueryDto
+  }: QueryUserDto
   ) {
     const where = {
       [field]: { contains },

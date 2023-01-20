@@ -12,7 +12,7 @@ export class QuestionsService {
     private readonly prisma: PrismaService,
     private configService: ConfigService) { }
 
-  create({ examId, ...createQuestionDto }: CreateQuestionDto) {
+  create({ examId, tags, ...createQuestionDto }: CreateQuestionDto) {
     return this.prisma.question.create({
       data: {
         ...createQuestionDto,
@@ -20,6 +20,13 @@ export class QuestionsService {
           connect: {
             id: examId,
           }
+        },
+        tags: {
+          connectOrCreate: tags.map(tag => ({
+            where: { name: tag },
+            create: { name: tag }
+          })
+          )
         }
       }
     });
@@ -34,14 +41,21 @@ export class QuestionsService {
     });
   }
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
+  update(id: number, { tags, ...updateQuestionDto }: UpdateQuestionDto) {
     return this.prisma.question.update({
       where: {
         id,
       },
       data: {
         ...updateQuestionDto,
-      }
+        tags: {
+          connectOrCreate: tags.map(tag => ({
+            where: { name: tag },
+            create: { name: tag }
+          }))
+        }
+      },
+
     });
 
   }

@@ -1,6 +1,7 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { QuestionType } from "@prisma/client";
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsNumber, IsOptional, IsString } from "class-validator";
 import { CreateQuestionDto } from "src/questions/dto/create-question.dto";
 
 export class CreateShortAnswerDto {
@@ -18,14 +19,20 @@ export class CreateShortAnswerDto {
     @IsNumber()
     examId: number;
 
+    @IsOptional()
+    @ApiProperty({ type: String, isArray: true })
+    @IsArray()
+    @Type(() => String)
+    tags: string[] = [];
 
     public toQuestion(): CreateQuestionDto {
         return {
-            question: this.question,
-            description: this.description,
             type: QuestionType.SHORT_ANSWER,
             options: [this.answer],
             answers: [0],
+            question: this.question,
+            description: this.description,
+            tags: this.tags,
             examId: this.examId
         }
     }

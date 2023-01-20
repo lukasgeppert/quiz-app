@@ -27,16 +27,6 @@ export class QueryDto {
     @IsEnum(Prisma.SortOrder)
     order: Prisma.SortOrder = Prisma.SortOrder.asc;
 
-    @ApiPropertyOptional({ default: 'id', description: 'Filter by this field' })
-    @IsOptional()
-    @IsString()
-    field?: string = 'id';
-
-    @ApiPropertyOptional({ description: 'Filter by this value' })
-    @IsOptional()
-    @IsString()
-    contains?: string;
-
     @ApiPropertyOptional({ format: '2021-01-01T11:59:59.999Z', description: 'Filter by this date' })
     @IsOptional()
     from: Date;

@@ -23,6 +23,12 @@ export class CreateMultipleChoiceDto {
     @Type(() => String)
     options: string[];
 
+    @IsOptional()
+    @ApiProperty({type: String, isArray: true})
+    @IsArray()
+    @Type(() => String)
+    tags: string[] = [];
+
     @IsNumber()
     examId: number;
 
@@ -30,8 +36,9 @@ export class CreateMultipleChoiceDto {
         return {
             question: this.question,
             description: this.description,
-            type: QuestionType.MULTIPLE_SELECT,
             options: this.options,
+            tags: this.tags,
+            type: QuestionType.MULTIPLE_SELECT,
             answers: [this.answer],
             examId: this.examId
         }

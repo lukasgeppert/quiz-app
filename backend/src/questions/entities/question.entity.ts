@@ -1,6 +1,7 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Question, QuestionType } from '@prisma/client';
-import { Exclude } from 'class-transformer';
+import { Exclude, Type } from 'class-transformer';
+import { TagEntity } from '../tags/entities/tag.entity';
 import { MultipleChoiceEntity } from '../multiple-choice/entities/multiple-choice.entity';
 import { MultipleSelectEntity } from '../multiple-select/entities/multiple-select.entity';
 import { ShortAnswerEntity } from '../short-answer/entities/short-answer.entity';
@@ -32,6 +33,10 @@ export class QuestionEntity implements Question {
     isDeleted: boolean;
 
 
+    @Type(() => TagEntity)
+    tags: TagEntity[];
+
+
     constructor(partial: Partial<QuestionEntity>) {
         Object.assign(this, partial);
     }
@@ -42,7 +47,8 @@ export class QuestionEntity implements Question {
             question: this.question,
             type: QuestionType.SHORT_ANSWER,
             description: this.description,
-            answer: this.options[this.answers[0]]
+            answer: this.options[this.answers[0]],
+            tags: this.tags,
         }
     }
 
@@ -53,7 +59,8 @@ export class QuestionEntity implements Question {
             question: this.question,
             description: this.description,
             answer: this.answers[0],
-            options: this.options
+            options: this.options,
+            tags: this.tags,
         }
     }
 
@@ -65,7 +72,8 @@ export class QuestionEntity implements Question {
             question: this.question,
             description: this.description,
             answers: this.answers,
-            options: this.options
+            options: this.options,
+            tags: this.tags,
         }
     }
 
@@ -75,14 +83,10 @@ export class QuestionEntity implements Question {
             type: QuestionType.TRUE_FALSE,
             question: this.question,
             description: this.description,
-            answer: this.answers[0] === 1
+            answer: this.answers[0] === 1,
+            tags: this.tags,
         }
     }
-
-
-
-
-
 }
 
 
