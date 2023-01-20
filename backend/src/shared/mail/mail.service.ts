@@ -4,11 +4,14 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailService {
+    expirationTime: number;
+
     constructor(
         private mailService: MailerService,
-        private configService: ConfigService) { }
+        private configService: ConfigService) {}
 
     sendVerificationMail(to: string, otp: string) {
+        const expirationDate = new Date(Date.now() + this.configService.getOrThrow('OTP_EXPIRATION_TIME') );
         try {
             return this.mailService.sendMail({
                 to,
@@ -20,6 +23,7 @@ export class MailService {
                 <button style="background-color:blue;color:white;padding:10px 20px;border-radius:5px;" disabled>
                     ${otp}
                 </button>
+                <p>This OTP will expire at ${expirationDate.toLocaleString()}</p>
                 <footer style="background-color:yellow;width: fit-content;">
                     <p style="color:red; font-weight: bold;">
                         If you did not create an account, please ignore this email.

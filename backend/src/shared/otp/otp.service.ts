@@ -10,7 +10,6 @@ export class OtpService {
         private configService: ConfigService,
         private redisService: RedisCacheService) { }
 
-    s
     private hashOtp(otp: string) {
         return bcrypt.hash(otp, this.configService.getOrThrow('SALT'));
     }
