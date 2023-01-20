@@ -15,20 +15,22 @@ export class AccessTokenService {
         configService: ConfigService) {
 
         this.cookieName = configService.getOrThrow('ACCESS_TOKEN_COOKIE_NAME')
-
+        const httpOnly = configService.getOrThrow('COOKIE_HTTP_ONLY');
         const domain = configService.getOrThrow('COOKIE_DOMAIN');
         const maxAge = configService.getOrThrow('ACCESS_TOKEN_EXPIRATION_TIME');
         this.cookieOptions = {
-            httpOnly: true,
-            path: "/auth/refresh",
+            httpOnly,
+            path: "/",
             maxAge,
             domain,
         }
+        console.log( this.cookieOptions);
     }
 
     sendCookie(res: Response, { email, id: sub, role }: UserEntity) {
         const data: Payload = { email, sub, role };
         const token = this.jwtService.sign(data);
+        console.log( this.cookieName);
         res.cookie(
             this.cookieName,
             token,

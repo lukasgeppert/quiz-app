@@ -13,6 +13,7 @@ import { AccessTokenGuard } from './access-token/access-token.gaurd';
 import { JwtService } from '@nestjs/jwt';
 import { VerifyEmailDto } from './dto/verify-emaill.dto';
 import { CredentailRegister } from './dto/credential-register.dto';
+import { OtpService } from 'src/shared/otp/otp.service';
 
 
 @Controller('auth')
@@ -23,6 +24,7 @@ export class AuthController {
     private readonly jwtService: JwtService,
     private readonly userService: UsersService,
     private readonly mailService: MailService,
+    private readonly otpService: OtpService,
     private readonly accessTokenService: AccessTokenService,
     private readonly refreshTokenService: RefreshTokenService) { }
 
@@ -32,11 +34,8 @@ export class AuthController {
     @Body() { email, password }: CredentialLogin) {
     const user = await this.userService.findOne({ email });
     if (user.email === email && await user.comparePassword(password)) {
-      if (!user.emailVerified) {
-        throw new HttpException('Email not verified', HttpStatus.UNAUTHORIZED);
-      }
-      this.accessTokenService.sendCookie(response, user);
       this.refreshTokenService.sendCookie(response, user);
+      this.accessTokenService.sendCookie(response, user);
       return user;
     }
     throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
@@ -47,21 +46,30 @@ export class AuthController {
   async credentailSignUp(@Body() body: CredentailRegister) {
     const data = await this.userService.create(body);
     const token = this.jwtService.sign({ sub: data.id, email: data.email, role: data.role });
-    this.mailService.sendVerificationMail(data.email, token);
     return { message: "User created successfully" };
   }
 
-  @Get('verify-email')
-  async verifyEmail(@Query() data: VerifyEmailDto) {
-    try {
-      const { sub } = this.jwtService.verify(data.token);
-      await this.userService.update(sub, { emailVerified: true });
-      return { message: "Email verified successfully" }
-    } catch (error) {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
-    }
 
+  @UseGuards(AccessTokenGuard)
+  @ApiCookieAuth()
+  @Post("generate-otp")
+  async generateOtp(@AuthUser() id: number) {
+    const user = await this.userService.findOne({ id });
+    const otp = await this.otpService.generateOtp(user.id);
+    await this.mailService.sendVerificationMail(user.email, otp);
+    return { message: "Otp sent successfully" };
   }
+
+  @Post("verify-otp")
+  @ApiCookieAuth()
+  @UseGuards(AccessTokenGuard)
+  async verifyOtp(@AuthUser() id: number, @Query() { otp }: VerifyEmailDto) {
+    if (await this.otpService.verifyOtp(id, otp)) {
+      return { message: "Otp verified successfully" };
+    }
+    throw new HttpException('Invalid otp', HttpStatus.UNAUTHORIZED);
+  }
+
 
   @Post("logout")
   async logout(@Res({ passthrough: true }) response: Response) {

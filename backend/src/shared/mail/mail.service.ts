@@ -8,8 +8,7 @@ export class MailService {
         private mailService: MailerService,
         private configService: ConfigService) { }
 
-    sendVerificationMail(to: string, token: string) {
-        const verificationUrl = `${this.configService.getOrThrow('BACKEND_URL')}/verify-email?token=${token}`;
+    sendVerificationMail(to: string, otp: string) {
         try {
             return this.mailService.sendMail({
                 to,
@@ -17,11 +16,10 @@ export class MailService {
                 text: "Welcome to my app",
                 html: `
                 <h1>Welcome to my app</h1>
-                <p>Click on the link below to verify your email</p>
-                <button style="height:50px;width:100px;background-color: green;">
-                    <a style="text-decoration:none; color:white;font-weight: bold;" href="${verificationUrl}">Verify Email</a>
+                <p>Copy and paste the code below to verify your email</p>
+                <button style="background-color:blue;color:white;padding:10px 20px;border-radius:5px;" disabled>
+                    ${otp}
                 </button>
-                <p>Or copy and paste the link below into your browser</p>
                 <footer style="background-color:yellow;width: fit-content;">
                     <p style="color:red; font-weight: bold;">
                         If you did not create an account, please ignore this email.

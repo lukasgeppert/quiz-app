@@ -9,7 +9,6 @@ import { lengthValidator, passwordMatchvalidator, patternValidator } from '../sh
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['../shared/form/form.component.scss']
-
 })
 export class RegisterComponent {
 

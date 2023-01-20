@@ -1,0 +1,17 @@
+import { Injectable, Logger } from "@nestjs/common";
+import { NextFunction, Response, Request } from "express";
+
+@Injectable()
+export class LogMiddleware {
+    use(req: Request, res: Response, next: NextFunction): void {
+        Logger.log(`Request ${req.ip} ${req.method} ${req.url}`);
+        Logger.log(`Request Cookies ${JSON.stringify(req.cookies)}]`);
+        Logger.log(`[Request Body ${JSON.stringify(req.body)}]`);
+        res.on('close', () => {
+            Logger.log(`Response Status ${res.statusCode}`);
+            Logger.log(`Response Cookies ${JSON.stringify(res.getHeaders())}`);
+        });
+
+        next();
+    }
+}

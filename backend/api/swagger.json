@@ -254,21 +254,12 @@
                 ]
             }
         },
-        "/auth/verify-email": {
-            "get": {
-                "operationId": "AuthController_verifyEmail",
-                "parameters": [
-                    {
-                        "name": "token",
-                        "required": true,
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+        "/auth/generate-otp": {
+            "post": {
+                "operationId": "AuthController_generateOtp",
+                "parameters": [],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": ""
                     },
                     "400": {
@@ -284,6 +275,49 @@
                 },
                 "tags": [
                     "auth"
+                ],
+                "security": [
+                    {
+                        "cookie": []
+                    }
+                ]
+            }
+        },
+        "/auth/verify-otp": {
+            "post": {
+                "operationId": "AuthController_verifyOtp",
+                "parameters": [
+                    {
+                        "name": "otp",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "auth"
+                ],
+                "security": [
+                    {
+                        "cookie": []
+                    }
                 ]
             }
         },
@@ -913,6 +947,9 @@
                     "image": {
                         "type": "string",
                         "nullable": true
+                    },
+                    "emailVerified": {
+                        "type": "boolean"
                     }
                 },
                 "required": [
@@ -921,7 +958,8 @@
                     "email",
                     "firstName",
                     "lastName",
-                    "image"
+                    "image",
+                    "emailVerified"
                 ]
             },
             "ValidationErrorDto": {

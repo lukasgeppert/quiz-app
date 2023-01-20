@@ -15,11 +15,11 @@ export class RefreshTokenService {
         configService: ConfigService) {
 
         this.cookieName = configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME')
-
+        const httpOnly = configService.getOrThrow('COOKIE_HTTP_ONLY');
         const domain = configService.getOrThrow('COOKIE_DOMAIN');
         const maxAge = configService.getOrThrow('REFRESH_TOKEN_EXPIRATION_TIME');
         this.cookieOptions = {
-            httpOnly: true,
+            httpOnly,
             path: "/auth/refresh",
             maxAge,
             domain,

@@ -1,4 +1,4 @@
-import { CacheInterceptor, CacheModule, ClassSerializerInterceptor, Module, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -9,6 +9,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ExamsModule } from './exams/exams.module';
 import { QuestionsModule } from './questions/questions.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { RedisCacheModule } from './shared/redis-cache/redis-cache.module';
+import { LogMiddleware } from './shared/middleware/log.middleware';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { ScheduleModule } from '@nestjs/schedule';
         PORT: Joi.number().default(3000),
         DATABASE_URL: Joi.string().required(),
         COOKIE_DOMAIN: Joi.string().default('localhost'),
+        COOKIE_HTTP_ONLY : Joi.boolean().default(true),
 
         FRONTEND_URL: Joi.string().default('http://localhost:4200'),
         BACKEND_URL: Joi.string().default('http://localhost:3000'),
@@ -27,7 +30,7 @@ import { ScheduleModule } from '@nestjs/schedule';
         SALT: Joi.number().default(10),
 
         ACCESS_TOKEN_SECRET: Joi.string().required(),
-        ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().default(15 * 60), // 15 minutes
+        ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().default(24 * 60 * 60), // 24 hours
         REFRESH_TOKEN_SECRET: Joi.string().required(),
         REFRESH_TOKEN_EXPIRATION_TIME: Joi.string().default(7 * 24 * 60 * 60), // 7 days
         ACCESS_TOKEN_COOKIE_NAME: Joi.string().default('access_token'),
@@ -52,7 +55,8 @@ import { ScheduleModule } from '@nestjs/schedule';
         REDIS_PASSWORD: Joi.string().required(),
         REDIS_TTL: Joi.number().default(60), // 60 seconds
 
-
+        OTP_EXPIRATION_TIME: Joi.number().default(15 * 60 * 60), // 15 minutes
+        OTP_RESEND_TIME: Joi.number().default(60), // 60 seconds
         PERMANETLY_DELETE_AFTER: Joi.number().default(7 * 24 * 60 * 60), // 7 days
       }),
       validationOptions: {
@@ -69,18 +73,7 @@ import { ScheduleModule } from '@nestjs/schedule';
         limit: config.getOrThrow('THROTTLE_LIMIT'),
       }),
     }),
-
-    CacheModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({
-        host: configService.getOrThrow('REDIS_HOST'),
-        port: configService.getOrThrow('REDIS_PORT'),
-        password: configService.getOrThrow('REDIS_PASSWORD'),
-        ttl: configService.getOrThrow('REDIS_TTL'),
-      }),
-      inject: [ConfigService],
-      imports: [ConfigModule],
-    }),
-
+    RedisCacheModule,
     ScheduleModule.forRoot(),
 
     UsersModule,
@@ -91,9 +84,6 @@ import { ScheduleModule } from '@nestjs/schedule';
   controllers: [],
   providers: [
     {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },{
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     }, {
@@ -113,7 +103,11 @@ import { ScheduleModule } from '@nestjs/schedule';
         },
       }),
     },
-
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LogMiddleware).forRoutes('*');
+  }
+  
+}

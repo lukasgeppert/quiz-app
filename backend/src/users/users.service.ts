@@ -9,17 +9,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  salt!: number;
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly config: ConfigService) {
-    this.salt = this.config.get('SALT');
-  }
+    private readonly config: ConfigService) {}
 
 
   private hashPassword(password: string) {
-    return bcrypt.hash(password, this.salt);
+    return bcrypt.hash(password, this.config.getOrThrow('SALT'));
   }
 
 
@@ -69,7 +66,6 @@ export class UsersService {
       data,
     });
   }
-
 
   async remove(id: number) {
     const user = await this.prisma.user.delete({ where: { id } });

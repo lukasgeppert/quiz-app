@@ -9,6 +9,8 @@ import { AccessTokenModule } from './access-token/access-token.module';
 import { GoogleController } from './google/google.controller';
 import { GoogleStrategy } from './google/google.strategy';
 import { GoogleService } from './google/google.service';
+import { RedisCacheModule } from 'src/shared/redis-cache/redis-cache.module';
+import { OtpModule } from 'src/shared/otp/otp.module';
 
 @Module({
   controllers: [
@@ -21,11 +23,11 @@ import { GoogleService } from './google/google.service';
   ],
   imports: [
     UsersModule,
-    ConfigModule,
     MailModule,
     AccessTokenModule,
     RefreshTokenModule,
-
+    ConfigModule,
+    OtpModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
       property: 'user',

@@ -11,8 +11,6 @@ export class UserEntity implements User {
     lastName: string | null;
     image: string | null;
 
-    @Exclude()
-    @ApiHideProperty()
     emailVerified: boolean;
 
     @ApiHideProperty()
