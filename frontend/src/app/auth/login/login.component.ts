@@ -3,19 +3,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/alert/alert.service';
 import { AuthService } from '../auth.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['../shared/form/form.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private observer: BreakpointObserver,
+    private socialAuthService: SocialAuthService,
     private alertService: AlertService) { }
 
 
@@ -58,9 +58,22 @@ export class LoginComponent {
     ).subscribe(this.next)
   }
 
-
-  async googleLogin() {
-    return (await this.authService.googleLogin()).subscribe(this.next);
+  ngOnInit() {
+    this.socialAuthService.authState.subscribe(async (data) => {
+      const idToken = data.idToken;
+      this.authService.googleLogin(idToken).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.log(error);
+          this.alertService.error({
+            message: error.error.message,
+            title: 'Login failed'
+          })
+        }
+      });
+    });
   }
 
 }

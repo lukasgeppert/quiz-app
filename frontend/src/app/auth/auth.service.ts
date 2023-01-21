@@ -13,39 +13,31 @@ export class AuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly storageService: StorageService,
-    private socialService: SocialAuthService,
   ) { }
 
-  apiBaseUrl = environment.API_BASE_URL;  
+  apiBaseUrl = environment.API_BASE_URL;
   key = "auth_token";
 
 
   login(email: string, password: string) {
     return this.http.post(`${this.apiBaseUrl}/auth/login`, { email, password }).pipe(
       tap((response: any) => {
-        this.storageService.setItem(this.key, response.token);
+        this.storageService.setItem(this.key, response);
       })
     );
   }
-  async googleLogin() {
-    const user: SocialUser = await this.socialService.signIn(GoogleLoginProvider.PROVIDER_ID);
 
-    return this.http
-    .post(
-      `${this.apiBaseUrl}/auth/google/callback`,
-      {
-        name: user.name,
-        accessToken: user.authToken,
-        authorizationCode: user.authorizationCode,
-        type: 'web',
-      },
-    )
-    .pipe(
-      take(1),
+  googleLogin(idToken: string) {
+
+    return this.http.get(`${this.apiBaseUrl}/auth/google/login`, {
+      headers: {
+        idToken
+      }
+    }).pipe(
       tap((response: any) => {
-        this.storageService.setItem(this.key, response.token);
+        this.storageService.setItem(this.key, response);
       })
-    );
+    )
   }
 
 
@@ -60,7 +52,7 @@ export class AuthService {
         this.storageService.removeItem(this.key);
       }));
   }
-  
+
   isLoggedIn() {
     return this.storageService.getItem(this.key) != null;
   }
