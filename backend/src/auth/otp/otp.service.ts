@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { RedisCacheService } from '../redis-cache/redis-cache.service';
+import { RedisCacheService } from '../../shared/redis-cache/redis-cache.service';
 
 @Injectable()
 export class OtpService {

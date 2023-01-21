@@ -9,13 +9,14 @@ import { AccessTokenModule } from './access-token/access-token.module';
 import { GoogleController } from './google/google.controller';
 import { GoogleStrategy } from './google/google.strategy';
 import { GoogleService } from './google/google.service';
-import { RedisCacheModule } from 'src/shared/redis-cache/redis-cache.module';
-import { OtpModule } from 'src/shared/otp/otp.module';
+import { OtpModule } from './otp/otp.module';
+import { OtpController } from './otp/otp.controller';
 
 @Module({
   controllers: [
     AuthController,
-    GoogleController
+    GoogleController,
+    OtpController
   ],
   providers: [
     GoogleStrategy,

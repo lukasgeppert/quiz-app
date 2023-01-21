@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { RedisCacheModule } from '../redis-cache/redis-cache.module';
+import { RedisCacheModule } from '../../shared/redis-cache/redis-cache.module';
 import { OtpService } from './otp.service';
 
 @Module({

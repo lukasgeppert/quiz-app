@@ -19,6 +19,18 @@ async function bootstrap() {
       scheme: 'bearer',
       in: 'header',
     })
+    .addOAuth2({
+      type: 'oauth2',
+      flows: {
+        implicit: {
+          authorizationUrl: `${configService.getOrThrow('BACKEND_URL')}/auth/google/backend-login`,
+          scopes: {
+            'read:users': 'read users',
+            'write:users': 'modify users',
+          },
+        },
+      },
+    })
     .build();
   app.use(cookieParser());
   app.enableCors({
