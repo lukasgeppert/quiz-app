@@ -6,44 +6,6 @@
                 "operationId": "UsersController_findAll",
                 "parameters": [
                     {
-                        "name": "skip",
-                        "required": false,
-                        "in": "query",
-                        "description": "Skip the first n results",
-                        "schema": {
-                            "minimum": 0,
-                            "default": 0,
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "take",
-                        "required": false,
-                        "in": "query",
-                        "description": "Limit the number of results",
-                        "schema": {
-                            "minimum": 1,
-                            "default": 100,
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "sort",
-                        "required": false,
-                        "in": "query",
-                        "description": "Sort by this field",
-                        "schema": {
-                            "default": "id",
-                            "enum": [
-                                "id",
-                                "question",
-                                "createdAt",
-                                "updatedAt"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "from",
                         "required": false,
                         "in": "query",
@@ -477,44 +439,6 @@
                 "operationId": "ExamsController_findAll",
                 "parameters": [
                     {
-                        "name": "skip",
-                        "required": false,
-                        "in": "query",
-                        "description": "Skip the first n results",
-                        "schema": {
-                            "minimum": 0,
-                            "default": 0,
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "take",
-                        "required": false,
-                        "in": "query",
-                        "description": "Limit the number of results",
-                        "schema": {
-                            "minimum": 1,
-                            "default": 100,
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "sort",
-                        "required": false,
-                        "in": "query",
-                        "description": "Sort by this field",
-                        "schema": {
-                            "default": "id",
-                            "enum": [
-                                "id",
-                                "question",
-                                "createdAt",
-                                "updatedAt"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "from",
                         "required": false,
                         "in": "query",
@@ -655,15 +579,6 @@
                         "schema": {
                             "minimum": 1,
                             "type": "number"
-                        }
-                    },
-                    {
-                        "name": "force",
-                        "required": false,
-                        "in": "query",
-                        "schema": {
-                            "default": false,
-                            "type": "boolean"
                         }
                     }
                 ],
@@ -850,15 +765,6 @@
                         "schema": {
                             "minimum": 1,
                             "type": "number"
-                        }
-                    },
-                    {
-                        "name": "force",
-                        "required": false,
-                        "in": "query",
-                        "schema": {
-                            "default": false,
-                            "type": "boolean"
                         }
                     }
                 ],

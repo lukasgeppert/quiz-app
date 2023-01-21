@@ -4,20 +4,23 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailService {
-    expirationTime: number;
+  expirationTime: number;
 
-    constructor(
-        private mailService: MailerService,
-        private configService: ConfigService) {}
+  constructor(
+    private mailService: MailerService,
+    private configService: ConfigService,
+  ) {}
 
-    sendVerificationMail(to: string, otp: string) {
-        const expirationDate = new Date(Date.now() + this.configService.getOrThrow('OTP_EXPIRATION_TIME') );
-        try {
-            return this.mailService.sendMail({
-                to,
-                subject: 'Please confirm your email',
-                text: "Welcome to my app",
-                html: `
+  sendVerificationMail(to: string, otp: string) {
+    const expirationDate = new Date(
+      Date.now() + this.configService.getOrThrow('OTP_EXPIRATION_TIME'),
+    );
+    try {
+      return this.mailService.sendMail({
+        to,
+        subject: 'Please confirm your email',
+        text: 'Welcome to my app',
+        html: `
                 <h1>Welcome to my app</h1>
                 <p>Copy and paste the code below to verify your email</p>
                 <button style="background-color:blue;color:white;padding:10px 20px;border-radius:5px;" disabled>
@@ -30,12 +33,12 @@ export class MailService {
                     </p>
                 </footer>
                 `,
-            })
-        } catch (error) {
-            throw new HttpException("Unable to send email", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+      });
+    } catch (error) {
+      throw new HttpException(
+        'Unable to send email',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-
-
-
+  }
 }

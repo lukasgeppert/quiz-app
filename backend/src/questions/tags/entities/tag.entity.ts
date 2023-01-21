@@ -1,13 +1,12 @@
-import { Tag } from "@prisma/client";
-import { Exclude } from "class-transformer";
+import { Tag } from '@prisma/client';
 
 export class TagEntity implements Tag {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
+  id: number;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
 
-    constructor(partial: Partial<TagEntity>) {
-        Object.assign(this, partial);
-    }
+  constructor(partial: Partial<TagEntity>) {
+    Object.assign(this, partial);
+  }
 }

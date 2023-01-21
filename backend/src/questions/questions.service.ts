@@ -7,10 +7,10 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Injectable()
 export class QuestionsService {
-
   constructor(
     private readonly prisma: PrismaService,
-    private configService: ConfigService) { }
+    private configService: ConfigService,
+  ) {}
 
   create({ examId, tags, ...createQuestionDto }: CreateQuestionDto) {
     return this.prisma.question.create({
@@ -19,25 +19,23 @@ export class QuestionsService {
         exam: {
           connect: {
             id: examId,
-          }
+          },
         },
         tags: {
-          connectOrCreate: tags.map(tag => ({
+          connectOrCreate: tags.map((tag) => ({
             where: { name: tag },
-            create: { name: tag }
-          })
-          )
-        }
-      }
+            create: { name: tag },
+          })),
+        },
+      },
     });
   }
-
 
   findOne(id: number) {
     return this.prisma.question.findFirstOrThrow({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
@@ -49,23 +47,21 @@ export class QuestionsService {
       data: {
         ...updateQuestionDto,
         tags: {
-          connectOrCreate: tags.map(tag => ({
+          connectOrCreate: tags.map((tag) => ({
             where: { name: tag },
-            create: { name: tag }
-          }))
-        }
+            create: { name: tag },
+          })),
+        },
       },
-
     });
-
   }
 
-  async remove(id: number, force: boolean = false) {
+  async remove(id: number, force = false) {
     if (force) {
       return this.prisma.question.delete({
         where: {
           id,
-        }
+        },
       });
     } else {
       return this.prisma.question.update({
@@ -74,23 +70,24 @@ export class QuestionsService {
         },
         data: {
           deletedAt: new Date(),
-        }
+        },
       });
     }
   }
 
-
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async handleCron() {
-
-    const lte = new Date(new Date().getTime() - this.configService.getOrThrow('PERMANETLY_DELETE_AFTER'));
+    const lte = new Date(
+      new Date().getTime() -
+        this.configService.getOrThrow('PERMANETLY_DELETE_AFTER'),
+    );
     const deletedQuestions = await this.prisma.question.deleteMany({
       where: {
         isDeleted: true,
         deletedAt: {
-          lte
+          lte,
         },
-      }
+      },
     });
     console.log(`Deleted ${deletedQuestions.count} questions`);
   }

@@ -7,20 +7,17 @@ import { Payload } from '../entities/auth.entity';
 
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
-   
-    constructor(configService: ConfigService) {
-        const cookieName = configService.getOrThrow('ACCESS_TOKEN_COOKIE_NAME');
-        const secretOrKey = configService.getOrThrow('ACCESS_TOKEN_SECRET');
-        const jwtFromRequest = ExtractJwt.fromExtractors([
-            (request: Request) => request?.cookies?.[cookieName] || null
-        ]);
+  constructor(configService: ConfigService) {
+    const cookieName = configService.getOrThrow('ACCESS_TOKEN_COOKIE_NAME');
+    const secretOrKey = configService.getOrThrow('ACCESS_TOKEN_SECRET');
+    const jwtFromRequest = ExtractJwt.fromExtractors([
+      (request: Request) => request?.cookies?.[cookieName] || null,
+    ]);
 
-        super({ jwtFromRequest, secretOrKey });
-    }
+    super({ jwtFromRequest, secretOrKey });
+  }
 
-    validate(payload: Payload) {
-        return payload;
-    }
-
-  
+  validate(payload: Payload) {
+    return payload;
+  }
 }

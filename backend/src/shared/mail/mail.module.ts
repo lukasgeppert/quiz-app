@@ -5,13 +5,13 @@ import { MailService } from './mail.service';
 
 @Module({
   providers: [MailService],
-  imports:[
+  imports: [
     ConfigModule,
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        transport:{
+        transport: {
           host: config.getOrThrow('SMTP_API_HOST'),
           port: 465,
           secure: true,
@@ -23,11 +23,9 @@ import { MailService } from './mail.service';
         defaults: {
           from: `"No Reply" ${config.getOrThrow('SMTP_MAIL_FROM')}>`,
         },
-      })
-    })
+      }),
+    }),
   ],
-  exports: [
-    MailService
-  ]
+  exports: [MailService],
 })
 export class MailModule {}

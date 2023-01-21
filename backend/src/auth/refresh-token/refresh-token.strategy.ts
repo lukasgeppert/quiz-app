@@ -6,21 +6,20 @@ import { ConfigService } from '@nestjs/config';
 import { Payload } from '../entities/auth.entity';
 
 @Injectable()
-export class RefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
-  
-    constructor(configService: ConfigService) {
-        const cookieName = configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME');
-        const secretOrKey = configService.getOrThrow('REFRESH_TOKEN_SECRET');
-        const jwtFromRequest = ExtractJwt.fromExtractors([
-            (request: Request) => request?.cookies?.[cookieName] || null
-        ]);
-        super({ jwtFromRequest, secretOrKey });
-    }
+export class RefreshTokenStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh',
+) {
+  constructor(configService: ConfigService) {
+    const cookieName = configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME');
+    const secretOrKey = configService.getOrThrow('REFRESH_TOKEN_SECRET');
+    const jwtFromRequest = ExtractJwt.fromExtractors([
+      (request: Request) => request?.cookies?.[cookieName] || null,
+    ]);
+    super({ jwtFromRequest, secretOrKey });
+  }
 
-    validate(payload: Payload) {
-        return payload;
-    }
+  validate(payload: Payload) {
+    return payload;
+  }
 }
-
-
-

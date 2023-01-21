@@ -7,6 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   controllers: [QuestionsController],
   providers: [QuestionsService],
-  imports: [PrismaModule, ConfigModule]
+  imports: [PrismaModule, ConfigModule],
 })
 export class QuestionsModule {}

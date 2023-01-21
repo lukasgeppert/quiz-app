@@ -7,38 +7,29 @@ import { Payload } from '../entities/auth.entity';
 
 @Injectable()
 export class RefreshTokenService {
-    cookieName: string;
-    cookieOptions: CookieOptions;
+  cookieName: string;
+  cookieOptions: CookieOptions;
 
-    constructor(
-        private jwtService: JwtService,
-        configService: ConfigService) {
+  constructor(private jwtService: JwtService, configService: ConfigService) {
+    this.cookieName = configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME');
+    const httpOnly = configService.getOrThrow('COOKIE_HTTP_ONLY');
+    const domain = configService.getOrThrow('COOKIE_DOMAIN');
+    const maxAge = configService.getOrThrow('REFRESH_TOKEN_EXPIRATION_TIME');
+    this.cookieOptions = {
+      httpOnly,
+      path: '/auth/refresh',
+      maxAge,
+      domain,
+    };
+  }
 
-        this.cookieName = configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME')
-        const httpOnly = configService.getOrThrow('COOKIE_HTTP_ONLY');
-        const domain = configService.getOrThrow('COOKIE_DOMAIN');
-        const maxAge = configService.getOrThrow('REFRESH_TOKEN_EXPIRATION_TIME');
-        this.cookieOptions = {
-            httpOnly,
-            path: "/auth/refresh",
-            maxAge,
-            domain,
-        }
-    }
+  sendCookie(res: Response, { email, id: sub, role }: UserEntity) {
+    const data: Payload = { email, sub, role };
+    const token = this.jwtService.sign(data);
+    res.cookie(this.cookieName, token, this.cookieOptions);
+  }
 
-
-    sendCookie(res: Response, { email, id: sub, role }: UserEntity) {
-        const data: Payload = { email, sub, role };
-        const token = this.jwtService.sign(data);
-        res.cookie(
-            this.cookieName,
-            token,
-            this.cookieOptions)
-    }
-
-
-    clearCookie(res: Response) {
-        res.clearCookie(this.cookieName, this.cookieOptions);
-    }
-
+  clearCookie(res: Response) {
+    res.clearCookie(this.cookieName, this.cookieOptions);
+  }
 }

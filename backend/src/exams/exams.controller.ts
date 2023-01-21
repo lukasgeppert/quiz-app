@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { ExamsService } from './exams.service';
 import { CreateExamDto } from './dto/create-exam.dto';
 import { UpdateExamDto } from './dto/update-exam.dto';
@@ -34,15 +44,22 @@ export class ExamsController {
   @Patch(':id')
   @ApiCookieAuth()
   @UseGuards(AccessTokenGuard)
-  update(@AuthUser() userId: number, @Param() { id }: ParamDto, @Body() updateExamDto: UpdateExamDto) {
+  update(
+    @AuthUser() userId: number,
+    @Param() { id }: ParamDto,
+    @Body() updateExamDto: UpdateExamDto,
+  ) {
     return this.examsService.update(userId, id, updateExamDto);
   }
 
   @Delete(':id')
   @ApiCookieAuth()
   @UseGuards(AccessTokenGuard)
-  remove(@AuthUser() userId: number, @Param() { id }: ParamDto, @Query() { force }: QueryDeleteDto) {
+  remove(
+    @AuthUser() userId: number,
+    @Param() { id }: ParamDto,
+    @Query() { force }: QueryDeleteDto,
+  ) {
     return this.examsService.remove(userId, id, force);
   }
-  
 }

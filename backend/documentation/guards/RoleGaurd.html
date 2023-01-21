@@ -60,7 +60,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>src/auth/gaurd/role.gaurd.ts</code>
+                <code>src/shared/role/role.gaurd.ts</code>
             </p>
 
 
@@ -108,7 +108,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/auth/gaurd/role.gaurd.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/shared/role/role.gaurd.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -185,8 +185,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/auth/gaurd/role.gaurd.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">src/shared/role/role.gaurd.ts:13</a></div>
                 </td>
             </tr>
 
@@ -243,41 +243,7 @@
 import { Reflector } from &#x27;@nestjs/core&#x27;;
 import { Role } from &#x27;@prisma/client&#x27;;
 import { UsersService } from &#x27;../../users/users.service&#x27;;
-/**
- * @api {get} /users/:id Get User
- * @apiName GetUser
- * @apiGroup User
- *
- * @apiParam {Number} id Users unique ID.
- *
- * @apiSuccess {String} firstname Firstname of the User.
- * @apiSuccess {String} lastname  Lastname of the User.
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       &quot;firstname&quot;: &quot;John&quot;,
- *       &quot;lastname&quot;: &quot;Doe&quot;
- *     }
- *
- * @apiError UserNotFound The id of the User was not found.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 404 Not Found
- *     {
- *       &quot;error&quot;: &quot;UserNotFound&quot;
- *     }
- */
 
-/**
- * @api {post} /users/ Create User
- * @apiName CreateUser
- * @apiGroup User
- *
- * @apiParam {String} firstname Firstname of the User.
- * @apiParam {String} lastname  Lastname of the User.
- *
- */
 @Injectable()
 export class RoleGaurd implements CanActivate {
     constructor(
@@ -300,8 +266,6 @@ export class RoleGaurd implements CanActivate {
     }
 }
 
-
-// how to create comment for composedoc
 </code></pre>
         </div>
 </div>

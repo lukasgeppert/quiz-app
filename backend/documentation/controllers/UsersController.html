@@ -136,8 +136,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/users/users.controller.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">src/users/users.controller.ts:18</a></div>
                 </td>
             </tr>
 
@@ -198,7 +198,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>findOne(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>findOne(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -212,8 +212,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/users/users.controller.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/users/users.controller.ts:23</a></div>
                 </td>
             </tr>
 
@@ -236,7 +236,7 @@
                                 <tr>
                                     <td>id</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
 
                                     <td>
@@ -274,7 +274,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>remove(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>remove(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -312,7 +312,7 @@
                                 <tr>
                                     <td>id</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
 
                                     <td>
@@ -341,20 +341,21 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from &#x27;@nestjs/common&#x27;;
 import { UsersService } from &#x27;./users.service&#x27;;
 import { ApiCookieAuth, ApiTags } from &#x27;@nestjs/swagger&#x27;;
 import { QueryDto } from &#x27;src/shared/dto/query.dto&#x27;;
-import { IsRole } from &#x27;src/auth/decorator/role.gaurd&#x27;;
+import { IsRole } from &#x27;../shared/role/role.decorator&#x27;;
 import { Role } from &#x27;@prisma/client&#x27;;
+import { AccessTokenGuard } from &#x27;src/auth/access-token/access-token.gaurd&#x27;;
 
 @Controller(&#x27;users&#x27;)
 @ApiTags(&#x27;users&#x27;)
-// @IsRole(Role.ADMIN)
-// @ApiCookieAuth()
+@UseGuards(AccessTokenGuard)
+@IsRole(Role.ADMIN)
+@ApiCookieAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
 
   @Get()
   findAll(@Query() query: QueryDto) {
@@ -362,14 +363,13 @@ export class UsersController {
   }
 
   @Get(&#x27;:id&#x27;)
-  findOne(@Param(&#x27;id&#x27;) id: string) {
-    return this.usersService.findOne(+id);
+  findOne(@Param(&#x27;id&#x27;) id: number) {
+    return this.usersService.findOne({ id });
   }
 
-
   @Delete(&#x27;:id&#x27;)
-  remove(@Param(&#x27;id&#x27;) id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param(&#x27;id&#x27;) id: number) {
+    return this.usersService.remove(id);
   }
 }
 </code></pre>

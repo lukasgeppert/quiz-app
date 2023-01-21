@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/prisma/filter/prisma.filter.ts</code>
+            <code>src/shared/filter/prisma.filter.ts</code>
         </p>
 
 
@@ -132,7 +132,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">src/prisma/filter/prisma.filter.ts:9</a></div>
+                            class="link-to-prism">src/shared/filter/prisma.filter.ts:9</a></div>
                 </td>
             </tr>
 
@@ -202,7 +202,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from &quot;@nestjs/common&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger } from &quot;@nestjs/common&quot;;
 import { PrismaClientKnownRequestError } from &quot;@prisma/client/runtime&quot;;
 import { Request, Response } from &quot;express&quot;;
 
@@ -226,6 +226,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
                     message: &#x60;The data you are trying to ${request.method.toLowerCase()} does not exist&#x60;,
                 })
             default:
+                Logger.error(exception.message, exception.stack, &#x27;PrismaExceptionFilter&#x27;);
                 return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
                     statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
                     message: &quot;Oops! Something went wrong&quot;,

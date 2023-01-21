@@ -7,9 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   controllers: [ExamsController],
   providers: [ExamsService],
-  imports: [
-    PrismaModule, 
-    ConfigModule,
-  ]
+  imports: [PrismaModule, ConfigModule],
 })
-export class ExamsModule { }
+export class ExamsModule {}

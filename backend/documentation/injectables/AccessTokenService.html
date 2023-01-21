@@ -124,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/auth/access-token/access-token.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/auth/access-token/access-token.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -199,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/auth/access-token/access-token.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/auth/access-token/access-token.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -261,15 +261,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>sendCookie(res: Response, data: <a href="../classes/Payload.html" target="_self">Payload</a>)</code>
+<code>sendCookie(res: Response, undefined: <a href="../classes/UserEntity.html" target="_self">UserEntity</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/auth/access-token/access-token.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">src/auth/access-token/access-token.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -302,9 +302,8 @@
 
                                 </tr>
                                 <tr>
-                                    <td>data</td>
                                     <td>
-                                                <code><a href="../classes/Payload.html" target="_self" >Payload</a></code>
+                                                <code><a href="../classes/UserEntity.html" target="_self" >UserEntity</a></code>
                                     </td>
 
                                     <td>
@@ -354,7 +353,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/auth/access-token/access-token.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/auth/access-token/access-token.service.ts:10</a></div>
                         </td>
                     </tr>
 
@@ -380,7 +379,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/auth/access-token/access-token.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/auth/access-token/access-token.service.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -397,6 +396,7 @@
 import { ConfigService } from &#x27;@nestjs/config&#x27;;
 import { JwtService } from &#x27;@nestjs/jwt&#x27;;
 import { CookieOptions, Response } from &#x27;express&#x27;;
+import { UserEntity } from &#x27;src/users/entities/user.entity&#x27;;
 import { Payload } from &#x27;../entities/auth.entity&#x27;;
 
 @Injectable()
@@ -409,19 +409,22 @@ export class AccessTokenService {
         configService: ConfigService) {
 
         this.cookieName &#x3D; configService.getOrThrow(&#x27;ACCESS_TOKEN_COOKIE_NAME&#x27;)
-
+        const httpOnly &#x3D; configService.getOrThrow(&#x27;COOKIE_HTTP_ONLY&#x27;);
         const domain &#x3D; configService.getOrThrow(&#x27;COOKIE_DOMAIN&#x27;);
         const maxAge &#x3D; configService.getOrThrow(&#x27;ACCESS_TOKEN_EXPIRATION_TIME&#x27;);
         this.cookieOptions &#x3D; {
-            httpOnly: true,
-            path: &quot;/auth/refresh&quot;,
+            httpOnly,
+            path: &quot;/&quot;,
             maxAge,
             domain,
         }
+        console.log( this.cookieOptions);
     }
 
-    sendCookie(res: Response, data: Payload) {
+    sendCookie(res: Response, { email, id: sub, role }: UserEntity) {
+        const data: Payload &#x3D; { email, sub, role };
         const token &#x3D; this.jwtService.sign(data);
+        console.log( this.cookieName);
         res.cookie(
             this.cookieName,
             token,

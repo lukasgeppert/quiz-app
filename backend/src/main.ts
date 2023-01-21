@@ -13,8 +13,8 @@ async function bootstrap() {
     .setTitle(`NestJS API ${process.env.npm_package_version}}`)
     .setDescription('The NestJS API description')
     .setVersion('1.0')
-    .addCookieAuth("auth-cookie", {
-      description: "Cookies are set automatically. No need to add.",
+    .addCookieAuth('auth-cookie', {
+      description: 'Cookies are set automatically. No need to add.',
       type: 'http',
       scheme: 'bearer',
       in: 'header',
@@ -23,7 +23,9 @@ async function bootstrap() {
       type: 'oauth2',
       flows: {
         implicit: {
-          authorizationUrl: `${configService.getOrThrow('BACKEND_URL')}/auth/google/backend-login`,
+          authorizationUrl: `${configService.getOrThrow(
+            'BACKEND_URL',
+          )}/auth/google/backend-login`,
           scopes: {
             'read:users': 'read users',
             'write:users': 'modify users',
@@ -38,7 +40,7 @@ async function bootstrap() {
       configService.getOrThrow('FRONTEND_URL'),
       configService.getOrThrow('BACKEND_URL'),
     ],
-    credentials: true
+    credentials: true,
   });
   const document = SwaggerModule.createDocument(app, config);
   fs.writeFileSync('./api/swagger.json', JSON.stringify(document, null, 4));

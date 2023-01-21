@@ -13,15 +13,8 @@ import { OtpModule } from './otp/otp.module';
 import { OtpController } from './otp/otp.controller';
 
 @Module({
-  controllers: [
-    AuthController,
-    GoogleController,
-    OtpController
-  ],
-  providers: [
-    GoogleStrategy,
-    GoogleService
-  ],
+  controllers: [AuthController, GoogleController, OtpController],
+  providers: [GoogleStrategy, GoogleService],
   imports: [
     UsersModule,
     MailModule,
@@ -32,11 +25,9 @@ import { OtpController } from './otp/otp.controller';
     PassportModule.register({
       defaultStrategy: 'jwt',
       property: 'user',
-      session: true
+      session: true,
     }),
   ],
-  exports: [
-    PassportModule,
-  ]
+  exports: [PassportModule],
 })
-export class AuthModule { }
+export class AuthModule {}

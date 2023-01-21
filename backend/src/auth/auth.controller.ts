@@ -1,5 +1,19 @@
-import { Controller, Get, Post, Body, Res, UseGuards,  HttpException, HttpStatus } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiConflictResponse, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Res,
+  UseGuards,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiCookieAuth,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ValidationErrorDto } from 'src/shared/dto/validation-error.dto';
 import { UsersService } from 'src/users/users.service';
 import { CredentialLogin } from './dto/credential-login.dto';
@@ -12,7 +26,6 @@ import { AccessTokenGuard } from './access-token/access-token.gaurd';
 import { JwtService } from '@nestjs/jwt';
 import { CredentailRegister } from './dto/credential-register.dto';
 
-
 @Controller('auth')
 @ApiTags('auth')
 @ApiBadRequestResponse({ description: 'Bad request', type: ValidationErrorDto })
@@ -21,14 +34,16 @@ export class AuthController {
     private readonly jwtService: JwtService,
     private readonly userService: UsersService,
     private readonly accessTokenService: AccessTokenService,
-    private readonly refreshTokenService: RefreshTokenService) { }
+    private readonly refreshTokenService: RefreshTokenService,
+  ) {}
 
-  @Post("login")
+  @Post('login')
   async credentailLogin(
     @Res({ passthrough: true }) response: Response,
-    @Body() { email, password }: CredentialLogin) {
+    @Body() { email, password }: CredentialLogin,
+  ) {
     const user = await this.userService.findOne({ email });
-    if (user.email === email && await user.comparePassword(password)) {
+    if (user.email === email && (await user.comparePassword(password))) {
       this.refreshTokenService.sendCookie(response, user);
       this.accessTokenService.sendCookie(response, user);
       return user;
@@ -36,41 +51,35 @@ export class AuthController {
     throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
   }
 
-  @Post("signup")
+  @Post('signup')
   @ApiConflictResponse({ description: 'Unable to create user' })
   async credentailSignUp(@Body() body: CredentailRegister) {
-    const data = await this.userService.create(body);
-    const token = this.jwtService.sign({ sub: data.id, email: data.email, role: data.role });
-    return { message: "User created successfully" };
+    const _ = await this.userService.create(body);
+    return { message: 'User created successfully' };
   }
 
-
-
-  @Post("logout")
+  @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
-    this.refreshTokenService.clearCookie(response)
+    this.refreshTokenService.clearCookie(response);
     this.accessTokenService.clearCookie(response);
-    return { message: "Logout successfully" };
+    return { message: 'Logout successfully' };
   }
 
   @Get('refresh')
   @ApiCookieAuth()
   @UseGuards(RefreshTokenGuard)
-  async refresh(@AuthUser() id: number, @Res({ passthrough: true }) response: Response) {
+  async refresh(
+    @AuthUser() id: number,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const user = await this.userService.findOne({ id });
     this.accessTokenService.sendCookie(response, user);
     return user;
   }
-
 
   @Get('personal-details')
   @UseGuards(AccessTokenGuard)
   me(@AuthUser() id: number) {
     return this.userService.findOne({ id });
   }
-
-
-
-
-
 }

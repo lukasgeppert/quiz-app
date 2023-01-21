@@ -1,7 +1,7 @@
-import { Role } from "@prisma/client";
+import { Role } from '@prisma/client';
 
 export class Payload {
-    sub: number;
-    email: string;
-    role: Role;
+  sub: number;
+  email: string;
+  role: Role;
 }

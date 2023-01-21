@@ -1,4 +1,10 @@
-import { ClassSerializerInterceptor, MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -22,7 +28,7 @@ import { LogMiddleware } from './shared/middleware/log.middleware';
         PORT: Joi.number().default(3000),
         DATABASE_URL: Joi.string().required(),
         COOKIE_DOMAIN: Joi.string().default('localhost'),
-        COOKIE_HTTP_ONLY : Joi.boolean().default(true),
+        COOKIE_HTTP_ONLY: Joi.boolean().default(true),
 
         FRONTEND_URL: Joi.string().default('http://localhost:4200'),
         BACKEND_URL: Joi.string().default('http://localhost:3000'),
@@ -36,19 +42,25 @@ import { LogMiddleware } from './shared/middleware/log.middleware';
         ACCESS_TOKEN_COOKIE_NAME: Joi.string().default('access_token'),
         REFRESH_TOKEN_COOKIE_NAME: Joi.string().default('refresh_token'),
 
-        GOOGLE_PROVIDER_ISSUER_URL: Joi.string().default('https://accounts.google.com'),
+        GOOGLE_PROVIDER_ISSUER_URL: Joi.string().default(
+          'https://accounts.google.com',
+        ),
         GOOGLE_PROVIDER_CLIENT_SECRET: Joi.string().required(),
         GOOGLE_PROVIDER_CLIENT_ID: Joi.string().required(),
-        GOOGLE_PROVIDER_CALLBACK_URL: Joi.string().default('http://localhost:3000/auth/google/callback'),
+        GOOGLE_PROVIDER_CALLBACK_URL: Joi.string().default(
+          'http://localhost:3000/auth/google/callback',
+        ),
 
         SMTP_API_KEY: Joi.string().required(),
-        SMTP_API_HOST: Joi.string().default("smtp.sendgrid.net"),
-        SMTP_API_USER: Joi.string().default("apikey"),
+        SMTP_API_HOST: Joi.string().default('smtp.sendgrid.net'),
+        SMTP_API_USER: Joi.string().default('apikey'),
         SMTP_MAIL_FROM: Joi.string().required(),
-        THROTTLE_TTL: Joi.number().default(60), // 60 seconds 
+        THROTTLE_TTL: Joi.number().default(60), // 60 seconds
         THROTTLE_LIMIT: Joi.number().default(100), // 100 requests
 
-        VERIFY_EMAIL_URL: Joi.string().default('http://localhost:3000/auth/verify-email'),
+        VERIFY_EMAIL_URL: Joi.string().default(
+          'http://localhost:3000/auth/verify-email',
+        ),
 
         REDIS_HOST: Joi.string().default('localhost'),
         REDIS_PORT: Joi.number().default(6379),
@@ -86,13 +98,16 @@ import { LogMiddleware } from './shared/middleware/log.middleware';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
-    }, {
+    },
+    {
       provide: APP_FILTER,
       useClass: PrismaExceptionFilter,
-    }, {
+    },
+    {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }, {
+      useClass: ThrottlerGuard,
+    },
+    {
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         transform: true,
@@ -109,5 +124,4 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LogMiddleware).forRoutes('*');
   }
-  
 }

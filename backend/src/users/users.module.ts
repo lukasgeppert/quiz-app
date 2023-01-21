@@ -10,11 +10,12 @@ import { RoleGaurd } from '../shared/role/role.gaurd';
   controllers: [UsersController],
   providers: [
     UsersService,
-  {
-    provide: APP_GUARD,
-    useClass: RoleGaurd,
-  }],
+    {
+      provide: APP_GUARD,
+      useClass: RoleGaurd,
+    },
+  ],
   imports: [PrismaModule, ConfigModule],
-  exports: [UsersService]
+  exports: [UsersService],
 })
 export class UsersModule {}

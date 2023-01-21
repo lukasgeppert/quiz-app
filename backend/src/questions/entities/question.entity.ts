@@ -8,87 +8,80 @@ import { ShortAnswerEntity } from '../short-answer/entities/short-answer.entity'
 import { TrueFalseEntity } from '../true-false/entities/true-false.entity';
 
 export class QuestionEntity implements Question {
-    id: number;
+  id: number;
 
-    @Exclude()
-    @ApiHideProperty()
-    examId: number;
-    question: string;
-    description: string | null;
+  @Exclude()
+  @ApiHideProperty()
+  examId: number;
+  question: string;
+  description: string | null;
 
-    @Exclude()
-    type: QuestionType;
+  @Exclude()
+  type: QuestionType;
 
-    options: string[];
-    answers: number[];
+  options: string[];
+  answers: number[];
 
-    createdAt: Date;
-    updatedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 
-    @Exclude()
-    @ApiHideProperty()
-    deletedAt: Date | null = null;
-    @Exclude()
-    @ApiHideProperty()
-    isDeleted: boolean;
+  @Exclude()
+  @ApiHideProperty()
+  deletedAt: Date | null = null;
+  @Exclude()
+  @ApiHideProperty()
+  isDeleted: boolean;
 
+  @Type(() => TagEntity)
+  tags: TagEntity[];
 
-    @Type(() => TagEntity)
-    tags: TagEntity[];
+  constructor(partial: Partial<QuestionEntity>) {
+    Object.assign(this, partial);
+  }
 
+  toShortAnswer(): ShortAnswerEntity {
+    return {
+      id: this.id,
+      question: this.question,
+      type: QuestionType.SHORT_ANSWER,
+      description: this.description,
+      answer: this.options[this.answers[0]],
+      tags: this.tags,
+    };
+  }
 
-    constructor(partial: Partial<QuestionEntity>) {
-        Object.assign(this, partial);
-    }
+  toMultipleChoice(): MultipleChoiceEntity {
+    return {
+      id: this.id,
+      type: QuestionType.MULTIPLE_CHOICE,
+      question: this.question,
+      description: this.description,
+      answer: this.answers[0],
+      options: this.options,
+      tags: this.tags,
+    };
+  }
 
-    toShortAnswer(): ShortAnswerEntity {
-        return {
-            id: this.id,
-            question: this.question,
-            type: QuestionType.SHORT_ANSWER,
-            description: this.description,
-            answer: this.options[this.answers[0]],
-            tags: this.tags,
-        }
-    }
+  toMultipleSelect(): MultipleSelectEntity {
+    return {
+      id: this.id,
+      type: QuestionType.MULTIPLE_SELECT,
+      question: this.question,
+      description: this.description,
+      answers: this.answers,
+      options: this.options,
+      tags: this.tags,
+    };
+  }
 
-    toMultipleChoice(): MultipleChoiceEntity {
-        return {
-            id: this.id,
-            type: QuestionType.MULTIPLE_CHOICE,
-            question: this.question,
-            description: this.description,
-            answer: this.answers[0],
-            options: this.options,
-            tags: this.tags,
-        }
-    }
-
-
-    toMultipleSelect(): MultipleSelectEntity {
-        return {
-            id: this.id,
-            type: QuestionType.MULTIPLE_SELECT,
-            question: this.question,
-            description: this.description,
-            answers: this.answers,
-            options: this.options,
-            tags: this.tags,
-        }
-    }
-
-    toTrueFalse(): TrueFalseEntity {
-        return {
-            id: this.id,
-            type: QuestionType.TRUE_FALSE,
-            question: this.question,
-            description: this.description,
-            answer: this.answers[0] === 1,
-            tags: this.tags,
-        }
-    }
+  toTrueFalse(): TrueFalseEntity {
+    return {
+      id: this.id,
+      type: QuestionType.TRUE_FALSE,
+      question: this.question,
+      description: this.description,
+      answer: this.answers[0] === 1,
+      tags: this.tags,
+    };
+  }
 }
-
-
-
-

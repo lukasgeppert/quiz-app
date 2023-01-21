@@ -190,10 +190,10 @@ import { RefreshTokenStrategy } from &#x27;./refresh-token.strategy&#x27;;
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) &#x3D;&gt; ({
-        secret: config.getOrThrow(&#x27;REFRESH_TOKEN_SECRET&#x27;),
+      useFactory: (ConfigService: ConfigService) &#x3D;&gt; ({
+        secret: ConfigService.getOrThrow(&#x27;REFRESH_TOKEN_SECRET&#x27;),
         signOptions: { 
-          expiresIn: config.getOrThrow(&#x27;REFRESH_TOKEN_EXPIRATION_TIME&#x27;) 
+          expiresIn: ConfigService.getOrThrow(&#x27;REFRESH_TOKEN_EXPIRATION_TIME&#x27;) 
         },
       }),
     }),

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { CreateMultipleChoiceDto } from './multiple-choice/dto/create-multiple-choice.dto';
@@ -11,29 +20,27 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('questions')
 @ApiTags('questions')
 export class QuestionsController {
-  constructor(private readonly questionsService: QuestionsService) { }
+  constructor(private readonly questionsService: QuestionsService) {}
 
-  @Post("multiple-choice")
+  @Post('multiple-choice')
   createMultipleChoice(@Body() createQuestionDto: CreateMultipleChoiceDto) {
     return this.questionsService.create(createQuestionDto.toQuestion());
   }
 
-  @Post("true-false")
+  @Post('true-false')
   createTrueFalse(@Body() createQuestionDto: CreateTrueFalseDto) {
     return this.questionsService.create(createQuestionDto.toQuestion());
   }
 
-
-  @Post("short-answer")
+  @Post('short-answer')
   createShortAnswer(@Body() createQuestionDto: CreateShortAnswerDto) {
     return this.questionsService.create(createQuestionDto.toQuestion());
   }
 
-  @Post("multiple-select")
+  @Post('multiple-select')
   createMultipleSelect(@Body() createQuestionDto: CreateMultipleChoiceDto) {
     return this.questionsService.create(createQuestionDto.toQuestion());
   }
-
 
   @Get(':id')
   findOne(@Param() { id }: ParamDto) {
@@ -41,7 +48,10 @@ export class QuestionsController {
   }
 
   @Patch(':id')
-  update(@Param() { id }: ParamDto, @Body() updateQuestionDto: UpdateQuestionDto) {
+  update(
+    @Param() { id }: ParamDto,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ) {
     return this.questionsService.update(id, updateQuestionDto);
   }
 

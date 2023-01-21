@@ -9,16 +9,14 @@ import { QueryUserDto } from './dto/query.user.dto';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     private readonly prisma: PrismaService,
-    private readonly config: ConfigService) {}
-
+    private readonly config: ConfigService,
+  ) {}
 
   private hashPassword(password: string) {
     return bcrypt.hash(password, this.config.getOrThrow('SALT'));
   }
-
 
   async create(data: CreateUserDto) {
     data.password = await this.hashPassword(data.password);
@@ -26,12 +24,10 @@ export class UsersService {
     return new UserEntity(user);
   }
 
-
-  async findOne(where: { id?: number, email?: string }) {
+  async findOne(where: { id?: number; email?: string }) {
     const user = await this.prisma.user.findUnique({ where });
     return new UserEntity(user);
   }
-
 
   async findAll({
     skip,
@@ -42,8 +38,7 @@ export class UsersService {
     contains,
     sort,
     order,
-  }: QueryUserDto
-  ) {
+  }: QueryUserDto) {
     const where = {
       [field]: { contains },
       createdAt: { gte, lte },
@@ -56,8 +51,8 @@ export class UsersService {
       take,
       where,
       orderBy,
-    })
-    return users.map(user => new UserEntity(user));
+    });
+    return users.map((user) => new UserEntity(user));
   }
 
   async update(id: number, data: UpdateUserDto) {
@@ -65,6 +60,7 @@ export class UsersService {
       where: { id },
       data,
     });
+    return new UserEntity(user);
   }
 
   async remove(id: number) {

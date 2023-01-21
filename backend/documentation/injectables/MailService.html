@@ -58,7 +58,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/mail/mail.service.ts</code>
+            <code>src/shared/mail/mail.service.ts</code>
         </p>
 
 
@@ -69,6 +69,20 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#expirationTime" >expirationTime</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -104,7 +118,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/mail/mail.service.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/shared/mail/mail.service.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -172,15 +186,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>sendVerificationMail(to: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>sendVerificationMail(to: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, otp: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">src/mail/mail.service.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">src/shared/mail/mail.service.ts:13</a></div>
                 </td>
             </tr>
 
@@ -213,7 +227,7 @@
 
                                 </tr>
                                 <tr>
-                                    <td>token</td>
+                                    <td>otp</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -241,6 +255,38 @@
         </tbody>
     </table>
 </section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expirationTime"></a>
+                    <span class="name">
+                        <span ><b>expirationTime</b></span>
+                        <a href="#expirationTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/shared/mail/mail.service.ts:7</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
 
     </div>
 
@@ -252,35 +298,32 @@ import { ConfigService } from &#x27;@nestjs/config&#x27;;
 
 @Injectable()
 export class MailService {
+    expirationTime: number;
+
     constructor(
         private mailService: MailerService,
-        private configService: ConfigService) { }
+        private configService: ConfigService) {}
 
-    sendVerificationMail(to: string, token: string) {
-        const verificationUrl &#x3D; &#x60;${this.configService.getOrThrow(&#x27;&#x27;)}?token&#x3D;${token}&#x60;;
+    sendVerificationMail(to: string, otp: string) {
+        const expirationDate &#x3D; new Date(Date.now() + this.configService.getOrThrow(&#x27;OTP_EXPIRATION_TIME&#x27;) );
         try {
             return this.mailService.sendMail({
                 to,
-                template: &#x27;./confirmation-mail&#x27;,
                 subject: &#x27;Please confirm your email&#x27;,
                 text: &quot;Welcome to my app&quot;,
                 html: &#x60;
-                    &lt;h1&gt;Welcome to my app&lt;/h1&gt;
-
-                    &lt;p&gt;Click on the link below to verify your email&lt;/p&gt;
-                    &lt;button&gt;
-                        &lt;a href&#x3D;&quot;${verificationUrl}&quot;&gt;Verify Email&lt;/a&gt;
-                    &lt;button&gt;
-
-                    &lt;p&gt;Or copy and paste the link below into your browser&lt;/p&gt;
-
-
-                    &lt;footer&gt;
+                &lt;h1&gt;Welcome to my app&lt;/h1&gt;
+                &lt;p&gt;Copy and paste the code below to verify your email&lt;/p&gt;
+                &lt;button style&#x3D;&quot;background-color:blue;color:white;padding:10px 20px;border-radius:5px;&quot; disabled&gt;
+                    ${otp}
+                &lt;/button&gt;
+                &lt;p&gt;This OTP will expire at ${expirationDate.toLocaleString()}&lt;/p&gt;
+                &lt;footer style&#x3D;&quot;background-color:yellow;width: fit-content;&quot;&gt;
+                    &lt;p style&#x3D;&quot;color:red; font-weight: bold;&quot;&gt;
                         If you did not create an account, please ignore this email.
-                    &lt;/footer&gt;
+                    &lt;/p&gt;
+                &lt;/footer&gt;
                 &#x60;,
-
-
             })
         } catch (error) {
             throw new HttpException(&quot;Unable to send email&quot;, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -5,10 +5,7 @@ import { OtpService } from './otp.service';
 
 @Module({
   providers: [OtpService],
-  imports: [
-    ConfigModule,
-    RedisCacheModule
-  ],
+  imports: [ConfigModule, RedisCacheModule],
   exports: [OtpService],
 })
-export class OtpModule { }
+export class OtpModule {}

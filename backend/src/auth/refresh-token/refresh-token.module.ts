@@ -5,10 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RefreshTokenStrategy } from './refresh-token.strategy';
 
 @Module({
-  providers: [
-    RefreshTokenStrategy,
-    RefreshTokenService
-  ],
+  providers: [RefreshTokenStrategy, RefreshTokenService],
   imports: [
     ConfigModule,
     JwtModule.registerAsync({
@@ -16,14 +13,12 @@ import { RefreshTokenStrategy } from './refresh-token.strategy';
       inject: [ConfigService],
       useFactory: (ConfigService: ConfigService) => ({
         secret: ConfigService.getOrThrow('REFRESH_TOKEN_SECRET'),
-        signOptions: { 
-          expiresIn: ConfigService.getOrThrow('REFRESH_TOKEN_EXPIRATION_TIME') 
+        signOptions: {
+          expiresIn: ConfigService.getOrThrow('REFRESH_TOKEN_EXPIRATION_TIME'),
         },
       }),
     }),
   ],
-  exports: [
-    RefreshTokenService
-  ]
+  exports: [RefreshTokenService],
 })
 export class RefreshTokenModule {}

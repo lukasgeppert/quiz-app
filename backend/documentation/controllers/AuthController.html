@@ -102,13 +102,6 @@
                                     <span class="modifier">Async</span>
                                 <a href="#refresh" >refresh</a>
                             </li>
-                            <li>
-                                <a href="#sendToken" >sendToken</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#verifyEmail" >verifyEmail</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -141,7 +134,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>credentailLogin(response: Response, credentail: <a href="../classes/CredentialLogin.html" target="_self">CredentialLogin</a>)</code>
+                    <code>credentailLogin(response: Response, undefined: <a href="../classes/CredentialLogin.html" target="_self">CredentialLogin</a>)</code>
                 </td>
             </tr>
 
@@ -155,8 +148,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/auth/auth.controller.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/auth/auth.controller.ts:27</a></div>
                 </td>
             </tr>
 
@@ -189,7 +182,6 @@
 
                                 </tr>
                                 <tr>
-                                    <td>credentail</td>
                                     <td>
                                                 <code><a href="../classes/CredentialLogin.html" target="_self" >CredentialLogin</a></code>
                                     </td>
@@ -231,7 +223,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>credentailSignUp(body: <a href="../classes/CredentialLogin.html" target="_self">CredentialLogin</a>)</code>
+                    <code>credentailSignUp(body: <a href="../classes/CredentailRegister.html" target="_self">CredentailRegister</a>)</code>
                 </td>
             </tr>
 
@@ -245,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/auth/auth.controller.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">src/auth/auth.controller.ts:41</a></div>
                 </td>
             </tr>
 
@@ -269,7 +261,7 @@
                                 <tr>
                                     <td>body</td>
                                     <td>
-                                                <code><a href="../classes/CredentialLogin.html" target="_self" >CredentialLogin</a></code>
+                                                <code><a href="../classes/CredentailRegister.html" target="_self" >CredentailRegister</a></code>
                                     </td>
 
                                     <td>
@@ -323,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">src/auth/auth.controller.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">src/auth/auth.controller.ts:50</a></div>
                 </td>
             </tr>
 
@@ -362,7 +354,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>unknown</code>
 
                     </div>
                     <div class="io-description">
@@ -393,14 +385,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;me&#x27;)<br />@UseGuards(AccessTokenGuard)<br /></code>
+                    <code>@Get(&#x27;personal-details&#x27;)<br />@UseGuards(AccessTokenGuard)<br /></code>
                 </td>
             </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/auth/auth.controller.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">src/auth/auth.controller.ts:68</a></div>
                 </td>
             </tr>
 
@@ -477,8 +469,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">src/auth/auth.controller.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/auth/auth.controller.ts:59</a></div>
                 </td>
             </tr>
 
@@ -538,184 +530,23 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="sendToken"></a>
-                    <span class="name">
-                        <span ><b>sendToken</b></span>
-                        <a href="#sendToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>sendToken(response: Response, undefined: <a href="../classes/UserEntity.html" target="_self">UserEntity</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">src/auth/auth.controller.ts:82</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>response</td>
-                                    <td>
-                                            <code>Response</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                                <code><a href="../classes/UserEntity.html" target="_self" >UserEntity</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="verifyEmail"></a>
-                    <span class="name">
-                        <span class="modifier">Async</span>
-                        <span ><b>verifyEmail</b></span>
-                        <a href="#verifyEmail"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>verifyEmail(data: <a href="../classes/VerifyEmailDto.html" target="_self">VerifyEmailDto</a>)</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Get(&#x27;verify-email&#x27;)<br /></code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/auth/auth.controller.ts:53</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="../classes/VerifyEmailDto.html" target="_self" >VerifyEmailDto</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>    </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Post, Body, Res, UseGuards, Query } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Post, Body, Res, UseGuards,  HttpException, HttpStatus } from &#x27;@nestjs/common&#x27;;
 import { ApiBadRequestResponse, ApiConflictResponse, ApiCookieAuth, ApiTags } from &#x27;@nestjs/swagger&#x27;;
 import { ValidationErrorDto } from &#x27;src/shared/dto/validation-error.dto&#x27;;
 import { UsersService } from &#x27;src/users/users.service&#x27;;
 import { CredentialLogin } from &#x27;./dto/credential-login.dto&#x27;;
 import { Response } from &#x27;express&#x27;;
-import { MailService } from &#x27;src/mail/mail.service&#x27;;
 import { AccessTokenService } from &#x27;./access-token/access-token.service&#x27;;
 import { RefreshTokenService } from &#x27;./refresh-token/refresh-token.service&#x27;;
-import { Payload } from &#x27;./entities/auth.entity&#x27;;
 import { AuthUser } from &#x27;./decorator/auth.gaurd&#x27;;
 import { RefreshTokenGuard } from &#x27;./refresh-token/refresh-token.gaurd&#x27;;
 import { AccessTokenGuard } from &#x27;./access-token/access-token.gaurd&#x27;;
-import { UserEntity } from &#x27;src/users/entities/user.entity&#x27;;
 import { JwtService } from &#x27;@nestjs/jwt&#x27;;
-import { VerifyEmailDto } from &#x27;./dto/verify-emaill.dto&#x27;;
+import { CredentailRegister } from &#x27;./dto/credential-register.dto&#x27;;
 
 
 @Controller(&#x27;auth&#x27;)
@@ -725,69 +556,58 @@ export class AuthController {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UsersService,
-    private readonly mailService: MailService,
     private readonly accessTokenService: AccessTokenService,
     private readonly refreshTokenService: RefreshTokenService) { }
-
 
   @Post(&quot;login&quot;)
   async credentailLogin(
     @Res({ passthrough: true }) response: Response,
-    @Body() credentail: CredentialLogin) {
-    const user &#x3D; await this.userService.validateUserCredentail(credentail.email, credentail.password);
-    this.sendToken(response, user);
-    return user;
+    @Body() { email, password }: CredentialLogin) {
+    const user &#x3D; await this.userService.findOne({ email });
+    if (user.email &#x3D;&#x3D;&#x3D; email &amp;&amp; await user.comparePassword(password)) {
+      this.refreshTokenService.sendCookie(response, user);
+      this.accessTokenService.sendCookie(response, user);
+      return user;
+    }
+    throw new HttpException(&#x27;Invalid credentials&#x27;, HttpStatus.UNAUTHORIZED);
   }
-
 
   @Post(&quot;signup&quot;)
   @ApiConflictResponse({ description: &#x27;Unable to create user&#x27; })
-  async credentailSignUp(@Body() body: CredentialLogin) {
+  async credentailSignUp(@Body() body: CredentailRegister) {
     const data &#x3D; await this.userService.create(body);
     const token &#x3D; this.jwtService.sign({ sub: data.id, email: data.email, role: data.role });
-    this.mailService.sendVerificationMail(data.email, token);
-    return {
-      message: &quot;User created successfully&quot;
-    };
+    return { message: &quot;User created successfully&quot; };
   }
 
-  @Get(&#x27;verify-email&#x27;)
-  async verifyEmail(@Query() data: VerifyEmailDto) {
-    const { sub } &#x3D; this.jwtService.verify(data.token);
-    await this.userService.verifyEmail(sub);
 
-
-  }
 
   @Post(&quot;logout&quot;)
   async logout(@Res({ passthrough: true }) response: Response) {
     this.refreshTokenService.clearCookie(response)
     this.accessTokenService.clearCookie(response);
+    return { message: &quot;Logout successfully&quot; };
   }
 
   @Get(&#x27;refresh&#x27;)
   @ApiCookieAuth()
   @UseGuards(RefreshTokenGuard)
   async refresh(@AuthUser() id: number, @Res({ passthrough: true }) response: Response) {
-    const user &#x3D; await this.userService.findOne(id);
-    this.sendToken(response, user);
+    const user &#x3D; await this.userService.findOne({ id });
+    this.accessTokenService.sendCookie(response, user);
     return user;
   }
 
 
-  @Get(&#x27;me&#x27;)
+  @Get(&#x27;personal-details&#x27;)
   @UseGuards(AccessTokenGuard)
   me(@AuthUser() id: number) {
-    return this.userService.findOne(id);
+    return this.userService.findOne({ id });
   }
 
-  sendToken(
-    response: Response,
-    { email, id: sub, role }: UserEntity) {
-    const token: Payload &#x3D; { email, sub, role };
-    this.accessTokenService.sendCookie(response, token);
-    this.refreshTokenService.sendCookie(response, token);
-  }
+
+
+
 
 }
 </code></pre>
