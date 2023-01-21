@@ -39,6 +39,10 @@ export class AlertComponent implements OnInit, OnDestroy {
   }
 
   closeAlert() {
+    
+    if (this.alert?.onClick) {
+      this.alert.onClick();
+    }
     this._alertService.clear();
     this.alert = null;
   }

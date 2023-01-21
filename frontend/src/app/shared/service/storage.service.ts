@@ -5,12 +5,12 @@ import { Injectable } from '@angular/core';
 })
 export class StorageService {
 
-  storage: Storage = sessionStorage;
+  storage: Storage = localStorage;
 
   constructor() { }
 
 
-  clear() {
+  clearAll() {
     this.storage.clear();
   }
 
@@ -20,6 +20,10 @@ export class StorageService {
 
   setItem(key: string, value: any) {
     this.storage.setItem(key, JSON.stringify(value));
+  }
+
+  exists(key: string) {
+    return this.getItem(key) != null;
   }
 
   removeItem(key: string) {

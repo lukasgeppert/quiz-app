@@ -10,5 +10,6 @@ export interface Alert {
     title: string;
     message: string;
     icon: string;
+    onClick?: () => void;
 }
 

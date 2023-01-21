@@ -8,7 +8,8 @@ import { Alert, AlertType } from './alert.entity';
 interface AlertArgs {
   title?: string,
   message: string,
-  keepAfterRouteChange?: boolean
+  keepAfterRouteChange?: boolean,
+  onClick?: () => void
 }
 
 @Injectable({
@@ -40,43 +41,51 @@ export class AlertService implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  success({ title, message, keepAfterRouteChange = false }: AlertArgs) {
+  success({ title, message, onClick, keepAfterRouteChange = false }: AlertArgs) {
     title = title || AlertType.Success;
     this.keepAfterRouteChange = keepAfterRouteChange;
     this._alert.next({
       type: AlertType.Success,
       icon: 'check_circle',
-      title, message
+      title, 
+      message,
+      onClick
     });
   }
 
-  error({ title, message, keepAfterRouteChange = false }: AlertArgs) {
+  error({ title, message, onClick, keepAfterRouteChange = false }: AlertArgs) {
     title = title || AlertType.Error;
     this.keepAfterRouteChange = keepAfterRouteChange;
     this._alert.next({
       type: AlertType.Error,
       icon: 'error',
-      title, message
+      title, 
+      message,
+      onClick
     });
   }
 
-  info({ title, message, keepAfterRouteChange = false }: AlertArgs) {
+  info({ title, message, onClick, keepAfterRouteChange = false }: AlertArgs) {
     title = title || AlertType.Info;
     this.keepAfterRouteChange = keepAfterRouteChange;
     this._alert.next({
       type: AlertType.Info,
       icon: 'info',
-      title, message
+      title,
+      message,
+      onClick
     });
   }
 
-  warn({ title, message, keepAfterRouteChange = false }: AlertArgs) {
+  warn({ title, message, onClick, keepAfterRouteChange = false }: AlertArgs) {
     title = title || AlertType.Warning;
     this.keepAfterRouteChange = keepAfterRouteChange;
     this._alert.next({
       type: AlertType.Warning,
       icon: 'warning',
-      title, message
+      title, 
+      message,
+      onClick
     });
   }
 

@@ -28,7 +28,7 @@ export class AuthService {
     );
   }
   async googleLogin() {
-    const user: SocialUser = await this.socialService.signIn(GoogleLoginProvider.PROVIDER_ID,);
+    const user: SocialUser = await this.socialService.signIn(GoogleLoginProvider.PROVIDER_ID);
 
     return this.http
     .post(
