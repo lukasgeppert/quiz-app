@@ -36,9 +36,6 @@ export class RegisterComponent {
 
 
   registerForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required
-    ]),
     email: new FormControl('', [
       Validators.required,
       Validators.email,
@@ -70,7 +67,6 @@ export class RegisterComponent {
     return this.password.hasError(errorName);
   }
 
-  get name() { return this.registerForm.controls.name; }
   get password() { return this.registerForm.controls.password; }
   get email() { return this.registerForm.controls.email; }
   get confirmPassword() { return this.registerForm.controls.confirmPassword; }
@@ -79,12 +75,11 @@ export class RegisterComponent {
     if (this.registerForm.invalid) {
       return;
     }
-    const { name, email, password } = this.registerForm.value;
+    const { email, password } = this.registerForm.value;
 
     this.authService.register(
       email as string,
       password as string,
-      // name as string
     ).subscribe({
       next: () => {
         this.alertService.success({

@@ -1,45 +1,42 @@
-<div class="flex flex-col items-center justify-between ">
-    <h2>Login</h2>
+<h2>Login</h2>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col mb-4 p-4">
-        <mat-form-field apperance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" autocomplete="email">
-            <mat-error *ngIf="email.errors?.['required']">Email is required</mat-error>
-            <mat-error *ngIf="email.errors?.['email']">Email is in valid</mat-error>
-            <mat-icon matSuffix>account_circle</mat-icon>
-        </mat-form-field>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col mb-4 p-4">
+    <mat-form-field apperance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email">
+        <mat-error *ngIf="email.errors?.['required']">Email is required</mat-error>
+        <mat-error *ngIf="email.errors?.['email']">Email is in valid</mat-error>
+        <mat-icon matSuffix>account_circle</mat-icon>
+    </mat-form-field>
 
-        <mat-form-field apperance="outline">
-            <mat-label>Password</mat-label>
-            <input matInput autocomplete="current-password" formControlName="password"
-                [type]="showPassword? 'text' : 'password' ">
-            <mat-error *ngIf="password.errors?.['required']">Password is required</mat-error>
-            <mat-icon (click)="togglePasswordVisibility()" matSuffix>
-                {{ showPassword? "visibility" : "visibility_off" }}
-            </mat-icon>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
-    </form>
+    <mat-form-field apperance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput autocomplete="current-password" formControlName="password"
+            [type]="showPassword? 'text' : 'password' ">
+        <mat-error *ngIf="password.errors?.['required']">Password is required</mat-error>
+        <mat-icon (click)="togglePasswordVisibility()" matSuffix>
+            {{ showPassword? "visibility" : "visibility_off" }}
+        </mat-icon>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+</form>
 
 
-    <div class="mb-4">
-        <h2> Alterative login</h2>
+<div class="flex flex-col items-center justify-between mb-4">
+    <h2> Alterative login</h2>
 
-        <span class="flex-auto"></span>
-        <asl-google-signin-button type='standard' shape='square' size='medium' theme="outline"
-            logo_alignment="left"></asl-google-signin-button>
-        <span class="flex-auto"></span>
-    </div>
-    <div>
-        <p class="bg-gray-100 p-2 mb-0">
-            <span>Don't have an account?</span>
-            <a routerLink="/auth/register" color="primary" mat-button>SignUp?</a>
-        </p>
-        <p class="bg-gray-100 p-2">
-            <span>Forgot Password?</span>
-            <a routerLink="/auth/change-password" color="warn" mat-button>Change Password</a>
-        </p>
-    </div>
-
+    <span class="flex-auto"></span>
+    <asl-google-signin-button type='standard' shape='square' size='medium' theme="outline"
+        logo_alignment="left"></asl-google-signin-button>
+    <span class="flex-auto"></span>
 </div>
+<ul class="bg-gray-100 p-2 mb-0 text-left">
+    <li >
+        <span>Don't have an account?</span>
+        <a routerLink="/auth/register" color="primary" mat-button>SignUp</a>
+    </li>
+    <li>
+        <span>Forgot Password?</span>
+        <a routerLink="/auth/change-password" color="warn" mat-button>Change Password</a>
+    </li>
+</ul>

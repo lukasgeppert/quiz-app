@@ -42,7 +42,7 @@ export class AuthService {
 
 
   register(email: string, password: string) {
-    return this.http.post(`${this.apiBaseUrl}/auth/register`, { email, password })
+    return this.http.post(`${this.apiBaseUrl}/auth/register`, { email, password });
   }
 
 
@@ -63,5 +63,25 @@ export class AuthService {
         this.storageService.setItem(this.key, response.token);
       })
     );
+  }
+
+  generateOtp(email: string) {
+    return this.http.post(`${this.apiBaseUrl}/auth/otp/generate`, { email });
+  }
+
+  verifyOtp(email: string, otp: string) {
+    return this.http.post(`${this.apiBaseUrl}/auth/otp/verify`, { email }, {
+      headers: {
+        otp
+      }
+    });
+  }
+
+  changePassword(email: string, password: string, otp: string) {
+    return this.http.post(`${this.apiBaseUrl}/auth/change-password`, { email, password }, {
+      headers: {
+        otp
+      }
+    });
   }
 }

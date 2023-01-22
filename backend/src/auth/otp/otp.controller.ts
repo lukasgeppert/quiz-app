@@ -5,12 +5,12 @@ import {
   Post,
   Headers,
   UseGuards,
+  Body,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { MailService } from 'src/shared/mail/mail.service';
 import { UsersService } from 'src/users/users.service';
-import { AccessTokenGuard } from '../access-token/access-token.gaurd';
-import { AuthUser } from '../decorator/auth.gaurd';
+import { CreateOtpDto } from './dto/otp.dto';
 import { OtpService } from './otp.service';
 
 @Controller('auth/otp')
@@ -22,21 +22,25 @@ export class OtpController {
     private readonly otpService: OtpService,
   ) {}
 
-  @UseGuards(AccessTokenGuard)
   @ApiCookieAuth()
-  @Post('generate-otp')
-  async generateOtp(@AuthUser() id: number) {
-    const user = await this.userService.findOne({ id });
+  @Post('generate')
+  async generateOtp(@Body() { email} : CreateOtpDto) {
+    const user = await this.userService.findOne({ email });
+    if (!user.id) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
     const otp = await this.otpService.generateOtp(user.id);
     await this.mailService.sendVerificationMail(user.email, otp);
     return { message: 'Otp sent successfully' };
   }
 
-  @Post('verify-otp')
-  @ApiCookieAuth()
-  @UseGuards(AccessTokenGuard)
-  async verifyOtp(@AuthUser() id: number, @Headers('otp') otp: string) {
-    if (await this.otpService.verifyOtp(id, otp)) {
+  @Post('verify')
+  async verifyOtp(@Body() { email} : CreateOtpDto, @Headers('otp') otp: string) {
+    const user = await this.userService.findOne({ email });
+    if (!user.id) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    if (await this.otpService.verifyOtp(user.id, otp)) {
       return { message: 'Otp verified successfully' };
     }
     throw new HttpException('Invalid otp', HttpStatus.UNAUTHORIZED);

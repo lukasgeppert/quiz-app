@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Res,
+  Headers,
   UseGuards,
   HttpException,
   HttpStatus,
@@ -23,15 +24,15 @@ import { RefreshTokenService } from './refresh-token/refresh-token.service';
 import { AuthUser } from './decorator/auth.gaurd';
 import { RefreshTokenGuard } from './refresh-token/refresh-token.gaurd';
 import { AccessTokenGuard } from './access-token/access-token.gaurd';
-import { JwtService } from '@nestjs/jwt';
 import { CredentailRegister } from './dto/credential-register.dto';
+import { OtpService } from './otp/otp.service';
 
 @Controller('auth')
 @ApiTags('auth')
 @ApiBadRequestResponse({ description: 'Bad request', type: ValidationErrorDto })
 export class AuthController {
   constructor(
-    private readonly jwtService: JwtService,
+    private readonly otpService: OtpService,
     private readonly userService: UsersService,
     private readonly accessTokenService: AccessTokenService,
     private readonly refreshTokenService: RefreshTokenService,
@@ -51,7 +52,7 @@ export class AuthController {
     throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
   }
 
-  @Post('signup')
+  @Post('register')
   @ApiConflictResponse({ description: 'Unable to create user' })
   async credentailSignUp(@Body() body: CredentailRegister) {
     const _ = await this.userService.create(body);
@@ -82,4 +83,20 @@ export class AuthController {
   me(@AuthUser() id: number) {
     return this.userService.findOne({ id });
   }
+
+  @Post('change-password')
+  async changePassword(@Body() {email, password}: CredentialLogin,  @Headers('otp') otp: string) {
+    console.log(email, password, otp);
+    const user = await this.userService.findOne({ email });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (await this.otpService.verifyOtp(user.id, otp)) {
+      return await this.userService.update(user.id, { password });
+    }
+    throw new HttpException('Invalid otp', HttpStatus.UNAUTHORIZED);
+  }
+
+  
 }

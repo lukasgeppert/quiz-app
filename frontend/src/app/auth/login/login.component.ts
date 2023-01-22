@@ -51,6 +51,9 @@ export class LoginComponent implements OnInit {
   get password() { return this.loginForm.controls.password; }
 
   onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
     const { email, password } = this.loginForm.value;
     this.authService.login(
       email as string,

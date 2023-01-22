@@ -160,7 +160,7 @@
                 ]
             }
         },
-        "/auth/signup": {
+        "/auth/register": {
             "post": {
                 "operationId": "AuthController_credentailSignUp",
                 "parameters": [],
@@ -288,6 +288,56 @@
                 ]
             }
         },
+        "/auth/change-password": {
+            "post": {
+                "operationId": "AuthController_changePassword",
+                "parameters": [
+                    {
+                        "name": "otp",
+                        "required": true,
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CredentialLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserEntity"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
         "/auth/google/backend-login": {
             "get": {
                 "operationId": "GoogleController_googleAuth",
@@ -353,10 +403,20 @@
                 ]
             }
         },
-        "/auth/otp/generate-otp": {
+        "/auth/otp/generate": {
             "post": {
                 "operationId": "OtpController_generateOtp",
                 "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOtpDto"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": ""
@@ -372,7 +432,7 @@
                 ]
             }
         },
-        "/auth/otp/verify-otp": {
+        "/auth/otp/verify": {
             "post": {
                 "operationId": "OtpController_verifyOtp",
                 "parameters": [
@@ -385,6 +445,16 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOtpDto"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": ""
@@ -392,11 +462,6 @@
                 },
                 "tags": [
                     "otp"
-                ],
-                "security": [
-                    {
-                        "cookie": []
-                    }
                 ]
             }
         },
@@ -923,6 +988,17 @@
                     "password",
                     "email",
                     "role"
+                ]
+            },
+            "CreateOtpDto": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "email"
                 ]
             },
             "CreateExamDto": {

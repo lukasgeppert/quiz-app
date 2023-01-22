@@ -13,4 +13,8 @@ export class RedisCacheService {
   async set(key: string, value: any, ttl?: number) {
     return await this.cache.set(key, value, ttl);
   }
+
+  async del(key: string) {
+    await this.cache.del(key);
+  }
 }

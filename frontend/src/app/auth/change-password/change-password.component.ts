@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { length } from 'class-validator';
+import { AlertService } from 'src/app/alert/alert.service';
+import { AuthService } from '../auth.service';
 import { lengthValidator, passwordMatchvalidator, patternValidator } from '../shared/form/form.validator';
 
 @Component({
@@ -10,7 +13,13 @@ import { lengthValidator, passwordMatchvalidator, patternValidator } from '../sh
 export class ChangePasswordComponent {
   isPasswordVisible = false;
   isConfirmPasswordVisible = false;
+  otpSent = false;
 
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private alertService: AlertService,
+  ) { }
 
   getType = (type: boolean) => type ? "text" : "password";
 
@@ -24,6 +33,14 @@ export class ChangePasswordComponent {
   }
 
 
+
+  getOtpForm = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]),
+   
+  });
 
   changePasswordForm = new FormGroup({
     otp: new FormControl('', [
@@ -56,15 +73,63 @@ export class ChangePasswordComponent {
     return this.password.hasError(errorName);
   }
 
+  get email() { return this.getOtpForm.controls.email; }
+
   get otp() { return this.changePasswordForm.controls.otp; }
   get password() { return this.changePasswordForm.controls.password; }
   get confirmPassword() { return this.changePasswordForm.controls.confirmPassword; }
 
 
-  onSubmit() {
-    if (this.changePasswordForm.invalid) {
+  changePassword() {
+    const email = this.email.value;
+    
+    if (this.changePasswordForm.invalid || email === null) {
       return;
     }
-    console.log(this.changePasswordForm.value);
+
+    const { otp, password } = this.changePasswordForm.value;
+    this.authService.changePassword(email, password as string,  otp as string,).subscribe({
+      next: () => {
+        this.alertService.success({
+          message: "Password changed successfully",
+          title: "Success"
+        });
+        this.router.navigate(['/auth/login']);
+      },
+      error: (error) => {
+        this.alertService.error({
+          message: error.error.message,
+          title: "Error"
+        });
+      }
+    });
+
+    
   }
+
+  changeEmail() {
+    this.otpSent = false;
+  }
+
+
+  generateOtp() {
+    if (this.getOtpForm.invalid) {
+     return;
+    }
+    const email = this.email.value;
+    this.authService.generateOtp(email as string).subscribe({
+      next: () => {
+        this.otpSent = true;
+        this.alertService.clear();
+      },
+      error: (error) => {
+        this.alertService.error({
+          message: error.error.message,
+          title: "Error"
+        });
+      }
+    });
+  }
+
+
 }
