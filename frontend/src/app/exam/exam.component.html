@@ -1,0 +1,10 @@
+<mat-card *ngFor="let exam of exams" (click)="examDetail(exam)">
+    <mat-card-header>
+        <mat-card-title>{{exam.name | uppercase}}</mat-card-title>
+        <mat-card-subtitle>{{exam.description}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>Created At: {{exam.createdAt | date: 'medium'}}</p>
+        <p>Updated At: {{exam.updatedAt | date: 'medium'}}</p>
+    </mat-card-content>
+</mat-card>

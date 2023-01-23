@@ -1,0 +1,13 @@
+<ng-container *ngIf="exam">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{exam.name | uppercase}}</mat-card-title>
+            <mat-card-subtitle>{{exam.description}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Created At: {{exam.createdAt | date: 'medium'}}</p>
+            <p>Updated At: {{exam.updatedAt | date: 'medium'}}</p>
+        </mat-card-content>
+    </mat-card>
+    <question-multiple-choice *ngFor="let multipleChoice of exam.multipleChoice"  [question]="multipleChoice" />
+</ng-container>

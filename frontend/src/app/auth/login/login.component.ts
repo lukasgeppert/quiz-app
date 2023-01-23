@@ -8,7 +8,6 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../shared/form/form.component.scss']
 })
 export class LoginComponent implements OnInit {
 

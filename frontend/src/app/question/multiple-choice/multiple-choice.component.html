@@ -1,0 +1,20 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{question.question}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-radio-group [(ngModel)]="labelPosition" *ngFor="let option of question.options; let i=index"
+            (change)="onSelect(i)">
+            <mat-radio-button [value]="option">
+                <strong>{{i}}</strong>: {{option}}</mat-radio-button>
+        </mat-radio-group>
+    </mat-card-content>
+
+    <mat-card-content class="flex flex-row justify-between bg-slate-600 text-white" *ngIf="isCorrect !== undefined">
+        <mat-icon *ngIf="isCorrect == true" class="text-green-500">done</mat-icon>
+        <mat-icon *ngIf="isCorrect == false" class="text-red-500">error_outline</mat-icon>
+        <span>
+            {{question.description}}
+        </span>
+    </mat-card-content>
+</mat-card>

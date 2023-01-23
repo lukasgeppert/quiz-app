@@ -3,12 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/alert/alert.service';
 import { AuthService } from '../auth.service';
-import { lengthValidator, passwordMatchvalidator, patternValidator } from '../shared/form/form.validator';
+import { lengthValidator, passwordMatchvalidator, patternValidator } from '../shared/form.validator';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['../shared/form/form.component.scss']
 })
 export class RegisterComponent {
 
@@ -36,6 +35,7 @@ export class RegisterComponent {
 
 
   registerForm = new FormGroup({
+
     email: new FormControl('', [
       Validators.required,
       Validators.email,

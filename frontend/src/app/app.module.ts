@@ -11,15 +11,20 @@ import { LoaderInterceptor } from './loader/loader.interceptor';
 import { LoaderService } from './loader/loader.service';
 import { AlertComponent } from './alert/alert.component';
 import { CommonModule } from "@angular/common";
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './auth/auth.gaurd';
 import { AuthRefreshTokenInterceptor } from './auth/auth.interceptor';
 import { StorageService } from './shared/service/storage.service';
+import { ExamComponent } from './exam/exam.component';
+import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
+import { MultipleChoiceComponent } from './question/multiple-choice/multiple-choice.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
+    ExamComponent,
+    ExamDetailComponent,
+    MultipleChoiceComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +33,7 @@ import { StorageService } from './shared/service/storage.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-
+    FormsModule,
     AlertComponent,
     LoaderComponent
   ],

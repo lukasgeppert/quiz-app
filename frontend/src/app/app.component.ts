@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { AlertType } from './alert/alert.entity';
 import { AlertService } from './alert/alert.service';
 import { AuthService } from './auth/auth.service';
@@ -13,12 +15,16 @@ import { StorageService } from './shared/service/storage.service';
 export class AppComponent {
   title = 'Quiz App';
 
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  
   constructor(
     titleService: Title,
     metaService: Meta,
     private readonly alertService: AlertService,
     private readonly storageService: StorageService,
     public readonly authService: AuthService,
+    private readonly router: Router,
   ) {
     if (this.storageService.exists('cookie')) {
       this.alertService.info({
@@ -38,5 +44,10 @@ export class AppComponent {
   }
 
 
-
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.sidenav.close();
+      this.router.navigate(['/auth/login']);
+    });
+  }
 }

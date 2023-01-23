@@ -1,7 +1,7 @@
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { environment } from 'src/environment/environment';
 import { StorageService } from '../shared/service/storage.service';
 

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { length } from 'class-validator';
 import { AlertService } from 'src/app/alert/alert.service';
 import { AuthService } from '../auth.service';
-import { lengthValidator, passwordMatchvalidator, patternValidator } from '../shared/form/form.validator';
+import { lengthValidator, passwordMatchvalidator, patternValidator } from '../shared/form.validator';
 
 @Component({
   selector: 'app-change-password',
