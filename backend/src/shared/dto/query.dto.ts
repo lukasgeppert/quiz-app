@@ -31,7 +31,7 @@ export class QueryDto {
   @IsOptional()
   @IsString()
   @IsIn(['id', 'question', 'createdAt', 'updatedAt'])
-  sort = 'id';
+  sort = 'updatedAt';
 
   @ApiPropertyOptional({
     default: Prisma.SortOrder.asc,
@@ -39,7 +39,7 @@ export class QueryDto {
   })
   @IsOptional()
   @IsEnum(Prisma.SortOrder)
-  order: Prisma.SortOrder = Prisma.SortOrder.asc;
+  order: Prisma.SortOrder = Prisma.SortOrder.desc;
 
   @ApiPropertyOptional({
     format: '2021-01-01T11:59:59.999Z',

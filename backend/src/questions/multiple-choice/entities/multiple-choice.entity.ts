@@ -10,4 +10,5 @@ export class MultipleChoiceEntity {
   answer: number;
 
   tags: TagEntity[];
+  score: number;
 }

@@ -9,4 +9,5 @@ export class MultipleSelectEntity {
   options: string[];
   answers: number[];
   tags: TagEntity[];
+  score: number;
 }

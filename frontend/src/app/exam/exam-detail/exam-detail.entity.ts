@@ -99,6 +99,7 @@ export interface TrueFalse {
     description: string;
     answer: boolean;
     tags: Tag[];
+    score: number;
 }
 
 export interface MultipleChoice {
@@ -109,6 +110,7 @@ export interface MultipleChoice {
     options: string[];
     answer: number;
     tags: Tag[];
+    score: number;
 }
 
 export interface ShortAnswer {
@@ -118,6 +120,7 @@ export interface ShortAnswer {
     description: string;
     answer: string;
     tags: Tag[];
+    score: number;
 }
 
 export interface MultipleSelect {
@@ -128,6 +131,7 @@ export interface MultipleSelect {
     options: string[];
     answer: number;
     tags: Tag[];
+    score: number;
 }
 
 export interface Tag {
@@ -135,6 +139,7 @@ export interface Tag {
     name: string;
     createdAt: Date;
     updatedAt: Date;
+    score: number;
 }
 
 export enum QuestionType {

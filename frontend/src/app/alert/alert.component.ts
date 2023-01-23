@@ -28,6 +28,9 @@ export class AlertComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._subscription = this._alertService.alert$.subscribe(alert => {
       this.alert = alert;
+      setTimeout(() => {
+        this.closeAlert();
+      }, 5000);
       this.alertRef?.nativeElement.scrollIntoView({ behavior: 'smooth' });
     });
   }

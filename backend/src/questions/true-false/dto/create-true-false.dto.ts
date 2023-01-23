@@ -22,6 +22,7 @@ export class CreateTrueFalseDto {
   @IsArray()
   @Type(() => String)
   tags: string[] = [];
+  score: number;
 
   public toQuestion(): CreateQuestionDto {
     return {
@@ -32,6 +33,7 @@ export class CreateTrueFalseDto {
       answers: [this.answer ? 1 : 0],
       tags: this.tags,
       examId: this.examId,
+      score: this.score,
     };
   }
 }

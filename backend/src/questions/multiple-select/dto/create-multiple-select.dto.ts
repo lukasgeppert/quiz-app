@@ -31,6 +31,7 @@ export class CreateMultipleSelectDto {
   @IsArray()
   @Type(() => String)
   tags: string[] = [];
+  score: number;
 
   public toQuestion(): CreateQuestionDto {
     return {
@@ -41,6 +42,7 @@ export class CreateMultipleSelectDto {
       type: QuestionType.MULTIPLE_SELECT,
       tags: this.tags,
       examId: this.examId,
+      score: this.score,
     };
   }
 }

@@ -750,7 +750,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CreateMultipleChoiceDto"
+                                "$ref": "#/components/schemas/CreateMultipleSelectDto"
                             }
                         }
                     }
@@ -1093,6 +1093,9 @@
                         "items": {
                             "$ref": "#/components/schemas/TagEntity"
                         }
+                    },
+                    "score": {
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -1101,7 +1104,8 @@
                     "question",
                     "description",
                     "answer",
-                    "tags"
+                    "tags",
+                    "score"
                 ]
             },
             "MultipleChoiceEntity": {
@@ -1135,6 +1139,9 @@
                         "items": {
                             "$ref": "#/components/schemas/TagEntity"
                         }
+                    },
+                    "score": {
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -1144,7 +1151,8 @@
                     "description",
                     "options",
                     "answer",
-                    "tags"
+                    "tags",
+                    "score"
                 ]
             },
             "ShortAnswerEntity": {
@@ -1172,6 +1180,9 @@
                         "items": {
                             "$ref": "#/components/schemas/TagEntity"
                         }
+                    },
+                    "score": {
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -1180,7 +1191,8 @@
                     "type",
                     "description",
                     "answer",
-                    "tags"
+                    "tags",
+                    "score"
                 ]
             },
             "EntityWithQuestions": {
@@ -1277,6 +1289,9 @@
                     },
                     "examId": {
                         "type": "number"
+                    },
+                    "score": {
+                        "type": "number"
                     }
                 },
                 "required": [
@@ -1284,7 +1299,8 @@
                     "tags",
                     "question",
                     "answer",
-                    "examId"
+                    "examId",
+                    "score"
                 ]
             },
             "CreateTrueFalseDto": {
@@ -1308,13 +1324,17 @@
                     },
                     "examId": {
                         "type": "number"
+                    },
+                    "score": {
+                        "type": "number"
                     }
                 },
                 "required": [
                     "tags",
                     "question",
                     "answer",
-                    "examId"
+                    "examId",
+                    "score"
                 ]
             },
             "CreateShortAnswerDto": {
@@ -1338,13 +1358,61 @@
                     },
                     "examId": {
                         "type": "number"
+                    },
+                    "score": {
+                        "type": "number"
                     }
                 },
                 "required": [
                     "tags",
                     "question",
                     "answer",
-                    "examId"
+                    "examId",
+                    "score"
+                ]
+            },
+            "CreateMultipleSelectDto": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "answers": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "options": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "tags": {
+                        "default": [],
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "question": {
+                        "type": "string"
+                    },
+                    "examId": {
+                        "type": "number"
+                    },
+                    "score": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "answers",
+                    "options",
+                    "tags",
+                    "question",
+                    "examId",
+                    "score"
                 ]
             },
             "UpdateQuestionDto": {
@@ -1371,6 +1439,9 @@
                         "items": {
                             "type": "string"
                         }
+                    },
+                    "score": {
+                        "type": "number"
                     },
                     "question": {
                         "type": "string"

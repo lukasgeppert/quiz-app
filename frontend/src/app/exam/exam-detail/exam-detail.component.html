@@ -10,4 +10,5 @@
         </mat-card-content>
     </mat-card>
     <question-multiple-choice *ngFor="let multipleChoice of exam.multipleChoice"  [question]="multipleChoice" />
+    <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
 </ng-container>

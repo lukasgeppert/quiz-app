@@ -18,6 +18,9 @@ import { ExamComponent } from './exam/exam.component';
 import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
 import { MultipleChoiceComponent } from './question/multiple-choice/multiple-choice.component';
 import { FormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { scoreReducer } from './shared/score/score.reducer';
+import { ScoreComponent } from './shared/score/score.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     ExamComponent,
     ExamDetailComponent,
     MultipleChoiceComponent,
+    ScoreComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +39,8 @@ import { FormsModule } from '@angular/forms';
     MaterialModule,
     FormsModule,
     AlertComponent,
-    LoaderComponent
+    LoaderComponent,
+    StoreModule.forRoot({ score: scoreReducer })
   ],
   providers: [
     LoaderService,

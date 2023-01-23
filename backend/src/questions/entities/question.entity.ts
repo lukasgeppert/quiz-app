@@ -35,6 +35,8 @@ export class QuestionEntity implements Question {
   @Type(() => TagEntity)
   tags: TagEntity[];
 
+  score: number;
+
   constructor(partial: Partial<QuestionEntity>) {
     Object.assign(this, partial);
   }
@@ -47,6 +49,7 @@ export class QuestionEntity implements Question {
       description: this.description,
       answer: this.options[this.answers[0]],
       tags: this.tags,
+      score: this.score,
     };
   }
 
@@ -59,6 +62,7 @@ export class QuestionEntity implements Question {
       answer: this.answers[0],
       options: this.options,
       tags: this.tags,
+      score: this.score,
     };
   }
 
@@ -71,6 +75,7 @@ export class QuestionEntity implements Question {
       answers: this.answers,
       options: this.options,
       tags: this.tags,
+      score: this.score,
     };
   }
 
@@ -82,6 +87,7 @@ export class QuestionEntity implements Question {
       description: this.description,
       answer: this.answers[0] === 1,
       tags: this.tags,
+      score: this.score,
     };
   }
 }

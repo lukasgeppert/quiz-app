@@ -34,6 +34,7 @@ Table Question {
   question String [not null]
   description String
   type QuestionType [not null]
+  score Int [not null, default: 1]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   deletedAt DateTime

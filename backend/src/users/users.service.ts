@@ -56,6 +56,9 @@ export class UsersService {
   }
 
   async update(id: number, data: UpdateUserDto) {
+    if (data.password) {
+      data.password = await this.hashPassword(data.password);
+    }
     const user = await this.prisma.user.update({
       where: { id },
       data,

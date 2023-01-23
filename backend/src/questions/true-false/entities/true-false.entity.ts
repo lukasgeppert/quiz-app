@@ -8,4 +8,6 @@ export class TrueFalseEntity {
   description: string | null;
   answer: boolean;
   tags: TagEntity[];
+  score: number;
+
 }

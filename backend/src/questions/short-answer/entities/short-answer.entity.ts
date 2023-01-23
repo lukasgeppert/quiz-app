@@ -8,4 +8,5 @@ export class ShortAnswerEntity {
   description: string | null;
   answer: string;
   tags: TagEntity[];
+  score: number;
 }

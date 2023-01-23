@@ -16,6 +16,7 @@ import { CreateShortAnswerDto } from './short-answer/dto/create-short-answer.dto
 import { QueryDeleteDto } from 'src/shared/dto/query.dto';
 import { ParamDto } from 'src/shared/dto/param.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateMultipleSelectDto } from './multiple-select/dto/create-multiple-select.dto';
 
 @Controller('questions')
 @ApiTags('questions')
@@ -38,7 +39,7 @@ export class QuestionsController {
   }
 
   @Post('multiple-select')
-  createMultipleSelect(@Body() createQuestionDto: CreateMultipleChoiceDto) {
+  createMultipleSelect(@Body() createQuestionDto: CreateMultipleSelectDto) {
     return this.questionsService.create(createQuestionDto.toQuestion());
   }
 

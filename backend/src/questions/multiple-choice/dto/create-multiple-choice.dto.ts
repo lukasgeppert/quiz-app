@@ -38,6 +38,8 @@ export class CreateMultipleChoiceDto {
   @IsNumber()
   examId: number;
 
+  score: number;
+
   public toQuestion(): CreateQuestionDto {
     return {
       question: this.question,
@@ -47,6 +49,7 @@ export class CreateMultipleChoiceDto {
       type: QuestionType.MULTIPLE_SELECT,
       answers: [this.answer],
       examId: this.examId,
+      score: this.score,
     };
   }
 }

@@ -39,4 +39,10 @@ export class CreateQuestionDto {
   @IsArray()
   @Type(() => String)
   tags: string[] = [];
+
+
+  @IsOptional()
+  @IsNumber()
+  @ApiPropertyOptional()
+  score: number;
 }

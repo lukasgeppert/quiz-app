@@ -24,6 +24,7 @@ export class CreateShortAnswerDto {
   @IsArray()
   @Type(() => String)
   tags: string[] = [];
+  score: number;
 
   public toQuestion(): CreateQuestionDto {
     return {
@@ -34,6 +35,7 @@ export class CreateShortAnswerDto {
       description: this.description,
       tags: this.tags,
       examId: this.examId,
+      score: this.score,
     };
   }
 }
