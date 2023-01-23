@@ -4,7 +4,6 @@ import { MultipleChoice } from 'src/app/exam/exam-detail/exam-detail.entity';
 @Component({
   selector: 'question-multiple-choice',
   templateUrl: './multiple-choice.component.html',
-  styleUrls: ['./multiple-choice.component.scss']
 })
 export class MultipleChoiceComponent {
   @Input() question!: MultipleChoice;  
