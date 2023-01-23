@@ -1,5 +1,3 @@
-<h2>Login</h2>
-
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col mb-4 p-4">
     <mat-form-field apperance="outline">
         <mat-label>Email</mat-label>
@@ -30,13 +28,3 @@
         logo_alignment="left"></asl-google-signin-button>
     <span class="flex-auto"></span>
 </div>
-<ul class="bg-gray-100 p-2 mb-0 text-left">
-    <li >
-        <span>Don't have an account?</span>
-        <a routerLink="/auth/register" color="primary" mat-button>SignUp</a>
-    </li>
-    <li>
-        <span>Forgot Password?</span>
-        <a routerLink="/auth/change-password" color="warn" mat-button>Change Password</a>
-    </li>
-</ul>

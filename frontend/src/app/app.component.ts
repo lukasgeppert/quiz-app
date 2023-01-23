@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { AlertType } from './alert/alert.entity';
 import { AlertService } from './alert/alert.service';
+import { AuthService } from './auth/auth.service';
 import { StorageService } from './shared/service/storage.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class AppComponent {
     titleService: Title,
     metaService: Meta,
     private readonly alertService: AlertService,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
+    public readonly authService: AuthService,
   ) {
     if (this.storageService.exists('cookie')) {
       this.alertService.info({

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-auth',
@@ -6,5 +7,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {
+
+
+  constructor(private titleService: Title) { }
+
+
+  get title() {
+    return this.titleService.getTitle();
+  }
+
+  isLogin() {
+    return this.title !== 'Login';
+  }
+
+  isRegister() {
+    return this.title !== 'Register';
+  }
+
+  isChangePassword() {
+    return this.title !== 'Change Password';
+  }
+  
+
+
 
 }

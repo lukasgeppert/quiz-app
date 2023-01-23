@@ -1,6 +1,6 @@
 <mat-toolbar class="border-b w-screen bg-indigo-700 text-white">
   <mat-toolbar-row>
-    <button mat-icon-button>
+    <button mat-icon-button *ngIf="authService.isLoggedIn()">
       <mat-icon>menu</mat-icon>
     </button>
     <span class="ml-2">Quiz App</span>
