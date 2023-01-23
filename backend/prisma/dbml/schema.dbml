@@ -25,6 +25,10 @@ Table Exam {
   user User [not null]
   deletedAt DateTime
   isDeleted Boolean [not null, default: false]
+  isNegativeMarking Boolean [not null, default: false]
+  isShuffle Boolean [not null, default: false]
+  isPublic Boolean [not null, default: true]
+  allowReview Boolean [not null, default: false]
   userId Int [not null]
   questions Question [not null]
 }

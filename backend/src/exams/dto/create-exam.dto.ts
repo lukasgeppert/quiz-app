@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateExamDto {
   @IsString()
@@ -9,4 +9,20 @@ export class CreateExamDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isPublic?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isShuffle?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isNegativeMarking?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  allowReview?: boolean;
 }

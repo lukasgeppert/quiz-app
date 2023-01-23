@@ -9,6 +9,9 @@ import { ScoreService } from 'src/app/shared/score/score.service';
 export class MultipleChoiceComponent {
   @Input() question!: MultipleChoice;  
 
+  @Input() allowReview: boolean = false;
+  @Input() isSubmitted: boolean = false;
+
   labelPosition: number = -10;
 
   constructor(
@@ -22,7 +25,9 @@ export class MultipleChoiceComponent {
   onSelect(userAnswer: number) {
     this.isCorrect =  (this.question.answer === userAnswer);
     if (this.isCorrect) {
-      this.scoreService.incrementScore();
+      this.scoreService.incrementScore(this.question.score);
+    } else {
+      this.scoreService.decrementScore(this.question.score);
     }
     this.cd.detectChanges();
   }

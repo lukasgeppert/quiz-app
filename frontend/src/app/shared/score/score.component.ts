@@ -4,7 +4,7 @@ import { Score } from './score.entity';
 import { ScoreService } from './score.service';
 
 @Component({
-  selector: 'app-store',
+  selector: 'app-score',
   templateUrl: './score.component.html',
   styleUrls: ['./store.component.scss']
 })

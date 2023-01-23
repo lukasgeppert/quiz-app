@@ -4,7 +4,6 @@ import { AuthGuard } from './auth/auth.gaurd';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ExamDetailComponent } from './exam/exam-detail/exam-detail.component';
 import { ExamComponent } from './exam/exam.component';
-import { ScoreComponent } from './shared/score/score.component';
 
 const routes: Routes = [
   {
@@ -25,11 +24,6 @@ const routes: Routes = [
     component: ExamDetailComponent,
     canActivate: [AuthGuard],
     title: 'Exam',
-  }, {
-    path: 'score',
-    component: ScoreComponent,
-    canActivate: [AuthGuard],
-    title: 'Score',
   }
 ];
 

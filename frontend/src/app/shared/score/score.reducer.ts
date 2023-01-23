@@ -1,9 +1,9 @@
 import { createReducer } from "@ngrx/store";
 import { on } from "@ngrx/store";
-import { increment, decrement, reset, start , end, setExamName} from "./score.actions";
+import { increment, decrement, reset, start, end } from "./score.actions";
 import { Score } from "./score.entity";
 
-export const initialState: Score= {
+export const initialState: Score = {
     examName: '',
     score: 0,
     startTime: null,
@@ -15,42 +15,39 @@ export const initialState: Score= {
 
 export const scoreReducer = createReducer(
     initialState,
-    on(start, state => ({
+    on(start, (state, { exam }) => {
+        return {
             ...state,
+            examName: exam.name,
             startTime: new Date(),
-            endTime: null,
-        })),
-    on(increment, state => ({
-            ...state,
-            score: state.score + 1,
-            correct: state.correct + 1,
+            isNegaiveMarking: exam.isNegativeMarking,
+        }
+    }),
+    on(reset, _ => initialState),
+
+    on(increment, (state, { points }) => ({
+        ...state,
+        score: state.score + points,
+        correct: state.correct + 1,
     })),
-    on(decrement, state => {
+
+    on(decrement, (state, { points }) => {
         if (state.isNegaiveMarking) {
             return {
                 ...state,
-                score: state.score - 1,
+                score: state.score - points,
                 incorrect: state.incorrect + 1,
             }
         }
         return {
             ...state,
             incorrect: state.incorrect + 1,
-        }  
+        }
     }),
-    on(reset, state => ({
-            ...state,
-            score: 0,
-            endTime: new Date(),
-    })),
-
+    
     on(end, state => ({
-            ...state,
-            endTime: new Date(),
-    })),
-    on(setExamName, (state, {examName}) => ({
-            ...state,
-            examName,
+        ...state,
+        endTime: new Date(),
     })),
 
 );

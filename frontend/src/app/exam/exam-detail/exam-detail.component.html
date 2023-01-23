@@ -8,7 +8,13 @@
             <p>Created At: {{exam.createdAt | date: 'medium'}}</p>
             <p>Updated At: {{exam.updatedAt | date: 'medium'}}</p>
         </mat-card-content>
+        <mat-action-list>
+            <button mat-raised-button color="primary" (click)="onSubmit()"
+            [disabled]="isSubmitted">Submit</button>
+        </mat-action-list>
     </mat-card>
-    <question-multiple-choice *ngFor="let multipleChoice of exam.multipleChoice"  [question]="multipleChoice" />
-    <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+    <app-score *ngIf="isSubmitted"></app-score>
+
+    <question-multiple-choice *ngFor="let multipleChoice of exam.multipleChoice" [question]="multipleChoice"
+        [isSubmitted]="isSubmitted" [allowReview]="exam.allowReview" />
 </ng-container>

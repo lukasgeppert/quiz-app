@@ -1,13 +1,14 @@
 import { ApiHideProperty } from '@nestjs/swagger';
+import { Exam } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 import { MultipleChoiceEntity } from 'src/questions/multiple-choice/entities/multiple-choice.entity';
 import { ShortAnswerEntity } from 'src/questions/short-answer/entities/short-answer.entity';
 import { TrueFalseEntity } from 'src/questions/true-false/entities/true-false.entity';
 
-export class ExamEntity {
+export class ExamEntity implements Exam {
   id: number;
   name: string;
-  description?: string;
+  description: string | null;
   createdAt: Date;
   updatedAt: Date;
 
@@ -22,6 +23,13 @@ export class ExamEntity {
   @Exclude()
   @ApiHideProperty()
   userId: number;
+
+  isNegativeMarking: boolean;
+
+  @Exclude()
+  isShuffle: boolean;
+  isPublic: boolean;
+  allowReview: boolean;
 
   constructor(partial: Partial<ExamEntity>) {
     Object.assign(this, partial);

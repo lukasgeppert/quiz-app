@@ -1009,6 +1009,18 @@
                     },
                     "description": {
                         "type": "string"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
+                    },
+                    "isShuffle": {
+                        "type": "boolean"
+                    },
+                    "isNegativeMarking": {
+                        "type": "boolean"
+                    },
+                    "allowReview": {
+                        "type": "boolean"
                     }
                 },
                 "required": [
@@ -1025,7 +1037,8 @@
                         "type": "string"
                     },
                     "description": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "createdAt": {
                         "format": "date-time",
@@ -1034,13 +1047,30 @@
                     "updatedAt": {
                         "format": "date-time",
                         "type": "string"
+                    },
+                    "isNegativeMarking": {
+                        "type": "boolean"
+                    },
+                    "isShuffle": {
+                        "type": "boolean"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
+                    },
+                    "allowReview": {
+                        "type": "boolean"
                     }
                 },
                 "required": [
                     "id",
                     "name",
+                    "description",
                     "createdAt",
-                    "updatedAt"
+                    "updatedAt",
+                    "isNegativeMarking",
+                    "isShuffle",
+                    "isPublic",
+                    "allowReview"
                 ]
             },
             "TagEntity": {
@@ -1259,6 +1289,18 @@
                     },
                     "description": {
                         "type": "string"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
+                    },
+                    "isShuffle": {
+                        "type": "boolean"
+                    },
+                    "isNegativeMarking": {
+                        "type": "boolean"
+                    },
+                    "allowReview": {
+                        "type": "boolean"
                     }
                 }
             },

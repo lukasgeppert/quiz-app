@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Exam } from 'src/app/exam/exam.entity';
 import { decrement, end, increment, reset, start } from './score.actions';
 import { Score } from './score.entity';
 
@@ -17,27 +18,24 @@ export class ScoreService {
     return this.score$;
   }
 
-  incrementScore() {
-    this.score.dispatch(increment());
+  incrementScore(points: number) {
+    this.score.dispatch(increment(points));
   }
 
-  decrementScore() {
-    this.score.dispatch(decrement());
+  decrementScore(points: number) {
+    this.score.dispatch(decrement(points));
   }
 
   resetExam() {
     this.score.dispatch(reset());
   }
 
-  startExam() {
-    this.score.dispatch(start());
+  startExam(exam: Exam) {
+    this.score.dispatch(start(exam));
   }
 
   endExam() {
     this.score.dispatch(end());
   }
 
-  setExamName(examName: string) {
-    this.score.dispatch({type: '[Score] Set Exam Name', examName});
-  }
 }

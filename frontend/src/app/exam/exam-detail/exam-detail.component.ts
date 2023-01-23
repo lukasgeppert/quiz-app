@@ -15,12 +15,12 @@ export class ExamDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private examService: ExamService,
-    private router: Router,
     private scoreService: ScoreService,
   ) { }
 
   exam: ExamDetail | null = null;
   examSubscription!: Subscription;
+  isSubmitted: boolean = false;
 
 
   get examId() {
@@ -30,8 +30,7 @@ export class ExamDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.examSubscription = this.examService.findOne(this.examId).subscribe(exam => {
       this.exam = exam;
-      this.scoreService.setExamName(exam.name);
-      this.scoreService.startExam();
+      this.scoreService.startExam(exam);
     });
   }
 
@@ -40,8 +39,8 @@ export class ExamDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.isSubmitted = true;
     this.scoreService.endExam();
-    this.router.navigate(['/score']);
   }
 
 }

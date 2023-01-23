@@ -14,7 +14,7 @@ export class ExamsService {
   constructor(
     private readonly prisma: PrismaService,
     private configSerivce: ConfigService,
-  ) {}
+  ) { }
 
   async create(userId: number, createExamDto: CreateExamDto) {
     const exam = await this.prisma.exam.create({
@@ -91,6 +91,13 @@ export class ExamsService {
       .filter((question) => question.type === QuestionType.SHORT_ANSWER)
       .map((question) => question.toShortAnswer());
 
+    if (exam.isShuffle) {
+      examEntity.trueFalse = examEntity.trueFalse.sort(() => Math.random() - 0.5);
+      examEntity.multipleChoice = examEntity.multipleChoice.sort(() => Math.random() - 0.5);
+      examEntity.multipleSelect = examEntity.multipleSelect.sort(() => Math.random() - 0.5);
+      examEntity.shortAnswer = examEntity.shortAnswer.sort(() => Math.random() - 0.5);
+    }
+    
     return examEntity;
   }
 

@@ -4,4 +4,6 @@ export interface Exam {
     description: string;
     createdAt: Date;
     updatedAt: Date;
+    allowReview: boolean;
+    isNegativeMarking: boolean;
 }

@@ -31,16 +31,21 @@ model User {
 }
 
 model Exam {
-  id          Int        @id @default(autoincrement())
-  name        String     @unique
-  description String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  user        User       @relation(fields: [userId], references: [id])
-  deletedAt   DateTime?
-  isDeleted   Boolean    @default(false)
-  userId      Int
-  questions   Question[]
+  id                Int       @id @default(autoincrement())
+  name              String    @unique
+  description       String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              User      @relation(fields: [userId], references: [id])
+  deletedAt         DateTime?
+  isDeleted         Boolean   @default(false)
+  isNegativeMarking Boolean   @default(false)
+  isShuffle         Boolean   @default(false)
+  isPublic          Boolean   @default(true)
+  allowReview       Boolean   @default(false)
+
+  userId    Int
+  questions Question[]
 }
 
 model Question {
