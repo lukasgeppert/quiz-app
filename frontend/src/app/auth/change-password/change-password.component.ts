@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertService } from 'src/app/alert/alert.service';
+import { AlertService } from 'src/app/shared/alert/alert.service';
 import { AuthService } from '../auth.service';
 import { lengthValidator, passwordMatchvalidator, patternValidator } from '../shared/form.validator';
 

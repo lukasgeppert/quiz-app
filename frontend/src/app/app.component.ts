@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { AlertType } from './alert/alert.entity';
-import { AlertService } from './alert/alert.service';
+import { AlertService } from './shared/alert/alert.service';
 import { AuthService } from './auth/auth.service';
 import { StorageService } from './shared/service/storage.service';
 
